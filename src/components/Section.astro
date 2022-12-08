@@ -26,65 +26,79 @@ const lastProjectVisible = -1;
         <ul>
           {
             projects.map(({ route, title }, i) => (
-              <li>
+              <li id="project">
                 <ProjectCard route={route} title={title} />
               </li>
             ))
           }
         </ul>
       </div>
-    </horizontal-scroll>
 
-    <div class:list={['scrollButtons', { hidden: allProjectsVisible }]}>
-      <previous-button>
-        <button class:list={[{ disable: firstProjectVisible <= 0 }]}>
+      <div id="buttons" class="scrollButtons">
+        <button id="prevButton">
           <img src={LeftArrowIcon} alt="Left Arrow Icon" />
         </button>
-      </previous-button>
 
-      <next-button>
-        <button class:list={[{ disable: lastProjectVisible >= projects.length - 1 }]}>
+        <button id="nextButton">
           <img src={RightArrowIcon} alt="Right Arrow Icon" />
         </button>
-      </next-button>
-    </div>
+      </div>
+    </horizontal-scroll>
   </div>
 
   <script>
-    import { DESKTOP_THRESHOLD } from '@src/constants';
-    // @ts-ignore
+    import { DESKTOP_THRESHOLD, TABLET_THRESHOLD } from '@src/constants';
+    import debounce from 'debounce';
 
-    const handleScrollButtonClicked = (showNext: boolean) => {
-      console.log('click', showNext);
-    };
-
-    class PreviousButton extends HTMLElement {
-      constructor() {
-        super();
-        const button = this.querySelector('button');
-        if (button) button.addEventListener('click', () => handleScrollButtonClicked(false));
-      }
-    }
-
-    class NextButton extends HTMLElement {
-      constructor() {
-        super();
-        const button = this.querySelector('button');
-        if (button) button.addEventListener('click', () => handleScrollButtonClicked(true));
-      }
-    }
-
-    class HorizontalScroll extends HTMLElement {
+    class WheelHorizontalScroll extends HTMLElement {
       scrollContainer: HTMLElement | null = null;
+      nextButton: HTMLElement | null = null;
+      prevButton: HTMLElement | null = null;
+      buttonsContainer: HTMLElement | null = null;
+      elements: HTMLElement[] = [];
+      visibleElements: boolean[] = [];
+      allVisible: boolean = false;
+      firstVisible: number = 0;
+      lastVisible: number = 0;
+      maxVisible: number = 1;
+      observer: IntersectionObserver | null = null;
 
       constructor() {
         super();
+
+        window.onresize = debounce(this.handleResize.bind(this), 500);
+
         this.scrollContainer = this.querySelector('#scroll');
-        if (this.scrollContainer)
-          this.scrollContainer.addEventListener('wheel', this.handleHorizontalScroll.bind(this), { passive: false });
+        this.nextButton = this.querySelector('#nextButton');
+        this.prevButton = this.querySelector('#prevButton');
+        this.buttonsContainer = this.querySelector('#buttons');
+        this.elements = Array.from(this.querySelectorAll('#project'));
+
+        this.visibleElements = new Array(this.elements.length).fill(false);
+
+        if (this.nextButton) this.nextButton.addEventListener('click', () => this.handleScrollButtonClicked(true));
+        if (this.prevButton) this.prevButton.addEventListener('click', () => this.handleScrollButtonClicked(false));
+
+        if (this.scrollContainer) {
+          this.scrollContainer.addEventListener('wheel', this.handleWheel.bind(this), { passive: false });
+
+          this.observer = new IntersectionObserver(this.handleImageVisible.bind(this), {
+            root: this.scrollContainer,
+            threshold: 1,
+          });
+
+          this.elements.forEach((element) => {
+            if (element) this.observer?.observe(element);
+          });
+        }
       }
 
-      handleHorizontalScroll(event: WheelEvent) {
+      handleResize = () => {
+        this.maxVisible = -1;
+        this.handleImageVisible([]);
+      };
+
+      handleWheel = (event: WheelEvent) => {
         event.preventDefault();
 
         const width = window.innerWidth;
@@ -92,12 +106,52 @@ const lastProjectVisible = -1;
         const lateralHero = width > height && width >= DESKTOP_THRESHOLD;
 
         if (lateralHero && this.scrollContainer) this.scrollContainer.scrollLeft += event.deltaY;
-      }
+      };
+
+      getPadding = () => {
+        const width = window.innerWidth;
+        return width < TABLET_THRESHOLD ? 16 : 16 * 3;
+      };
+
+      handleScrollButtonClicked = (showNext: boolean) => {
+        const newFirstIndex = showNext
+          ? Math.min(this.elements.length - 1, this.lastVisible + 1)
+          : Math.max(0, this.firstVisible - this.maxVisible);
+
+        const newFirstProject = this.elements[newFirstIndex];
+
+        if (newFirstProject) {
+          const padding = this.getPadding();
+          const position = newFirstProject.offsetLeft - padding;
+          this.scrollContainer?.scrollTo({ left: position, behavior: 'smooth' });
+        }
+      };
+
+      getElementIndex = (element: Element) => {
+        let i = 0;
+        let current: Element | null = element;
+        for (i = 0; current; i++) current = current.previousElementSibling;
+        return i - 1;
+      };
+
+      handleImageVisible = (entries: IntersectionObserverEntry[]) => {
+        entries.forEach((entry) => {
+          const index = this.getElementIndex(entry.target);
+          this.visibleElements[index] = entry.isIntersecting;
+        });
+
+        this.maxVisible = Math.max(this.maxVisible, this.visibleElements.filter((e) => e).length);
+        this.firstVisible = this.visibleElements.indexOf(true);
+        this.lastVisible = this.visibleElements.lastIndexOf(true);
+        this.allVisible = this.visibleElements.reduce((a, b) => a && b, true);
+
+        this.nextButton?.classList.toggle('disable', this.lastVisible >= this.elements.length - 1);
+        this.prevButton?.classList.toggle('disable', this.firstVisible <= 0);
+        this.buttonsContainer?.classList.toggle('hidden', this.allVisible);
+      };
     }
 
-    customElements.define('previous-button', PreviousButton);
-    customElements.define('next-button', NextButton);
-    customElements.define('horizontal-scroll', HorizontalScroll);
+    customElements.define('horizontal-scroll', WheelHorizontalScroll);
   </script>
 
   <style lang="scss">
@@ -139,63 +193,56 @@ const lastProjectVisible = -1;
             display: flex;
           }
 
-          previous-button,
-          next-button {
+          button {
             position: relative;
             height: 100%;
             width: var(--spacing);
+            background-color: rgba(0, 0, 0, 0.2);
+            pointer-events: all;
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-            button {
-              position: relative;
-              height: 100%;
-              width: 100%;
-              background-color: rgba(0, 0, 0, 0.2);
-              pointer-events: all;
-              display: flex;
-              align-items: center;
-              justify-content: center;
+            &.disable {
+              pointer-events: none !important;
+              opacity: 0 !important;
+            }
 
-              &.disable {
-                pointer-events: none !important;
-                opacity: 0 !important;
+            @include mouse {
+              opacity: 1;
+
+              @include landscape {
+                @include desktop {
+                  opacity: 0;
+                }
               }
 
-              @include mouse {
+              &:hover {
                 opacity: 1;
-
-                @include landscape {
-                  @include desktop {
-                    opacity: 0;
-                  }
-                }
-
-                &:hover {
-                  opacity: 1;
-                  background-color: rgba(0, 0, 0, 0.3);
-
-                  @include light {
-                    background-color: rgba(0, 0, 0, 0.05);
-                  }
-
-                  @include dark {
-                    background-color: rgba(0, 0, 0, 0.3);
-                  }
-                }
-              }
-
-              img {
-                width: 50%;
-                height: 100%;
-                pointer-events: none;
-                filter: invert(1);
+                background-color: rgba(0, 0, 0, 0.3);
 
                 @include light {
-                  filter: invert(0);
+                  background-color: rgba(0, 0, 0, 0.1);
                 }
 
                 @include dark {
-                  filter: invert(1);
+                  background-color: rgba(0, 0, 0, 0.3);
                 }
+              }
+            }
+
+            img {
+              width: 50%;
+              height: 100%;
+              pointer-events: none;
+              filter: invert(1);
+
+              @include light {
+                filter: invert(0);
+              }
+
+              @include dark {
+                filter: invert(1);
               }
             }
           }

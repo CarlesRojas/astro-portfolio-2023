@@ -12,9 +12,11 @@
   },
   "dependencies": {
     "@astrojs/vercel": "^2.3.5",
-    "astro": "^1.6.13"
+    "astro": "^1.6.13",
+    "debounce": "^1.2.1"
   },
   "devDependencies": {
+    "@types/debounce": "^1.2.1",
     "@typescript-eslint/eslint-plugin": "^5.46.0",
     "@typescript-eslint/parser": "^5.46.0",
     "astrojs-service-worker": "^0.0.8",

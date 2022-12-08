@@ -2,12 +2,14 @@ lockfileVersion: 5.4
 
 specifiers:
   '@astrojs/vercel': ^2.3.5
+  '@types/debounce': ^1.2.1
   '@typescript-eslint/eslint-plugin': ^5.46.0
   '@typescript-eslint/parser': ^5.46.0
   astro: ^1.6.13
   astrojs-service-worker: ^0.0.8
   autoprefixer: ^10.4.13
   cssnano: ^5.1.14
+  debounce: ^1.2.1
   eslint: ^8.29.0
   prettier: ^2.8.1
   prettier-plugin-astro: ^0.7.0
@@ -16,8 +18,10 @@ specifiers:
 dependencies:
   '@astrojs/vercel': 2.3.5
   astro: 1.6.13_sass@1.56.1
+  debounce: 1.2.1
 
 devDependencies:
+  '@types/debounce': 1.2.1
   '@typescript-eslint/eslint-plugin': 5.46.0_jx43xxcguvnqqmtmaaygwl7cmu
   '@typescript-eslint/parser': 5.46.0_eslint@8.29.0
   astrojs-service-worker: 0.0.8
@@ -1587,6 +1591,10 @@ packages:
       '@babel/types': 7.20.5
     dev: false
 
+  /@types/debounce/1.2.1:
+    resolution: {integrity: sha512-epMsEE85fi4lfmJUH/89/iV/LI+F5CvNIvmgs5g5jYFPfhO2S/ae8WSsLOKWdwtoaZw9Q2IhJ4tQ5tFCcS/4HA==}
+    dev: true
+
   /@types/debug/4.1.7:
     resolution: {integrity: sha512-9AonUzyTjXXhEOa0DnqpzZi6VHlqKMswga9EXjpXnnqxwLtdvPPtlO8evrI5D9S6asFRCQ6v+wpiUKbw+vKqyg==}
     dependencies:
@@ -2504,6 +2512,10 @@ packages:
   /data-uri-to-buffer/4.0.0:
     resolution: {integrity: sha512-Vr3mLBA8qWmcuschSLAOogKgQ/Jwxulv3RNE4FXnYWRGujzrRWQI4m12fQqRkwX06C0KanhLr4hK+GydchZsaA==}
     engines: {node: '>= 12'}
+    dev: false
+
+  /debounce/1.2.1:
+    resolution: {integrity: sha512-XRRe6Glud4rd/ZGQfiV1ruXSfbvfJedlV9Y6zOlP+2K04vBYiJEte6stfFkCP03aMnY5tsipamumUjL14fofug==}
     dev: false
 
   /debug/4.3.4:

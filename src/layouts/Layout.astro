@@ -53,16 +53,6 @@ const { title } = Astro.props as Props;
     @include tablet {
       --spacing: 3rem;
     }
-
-    @include desktop {
-      --spacing: min(3.5%, 4rem);
-    }
-
-    @include landscape {
-      @include desktop {
-        --spacing: min(10%, 4rem);
-      }
-    }
   }
 
   * {
