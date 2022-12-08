@@ -1,0 +1,166 @@
+---
+import GithubIcon from '@assets/icons/github-fill.svg';
+import LinkedInIcon from '@assets/icons/linkedin-fill.svg';
+import MailIcon from '@assets/icons/mail-fill.svg';
+import profilePicture from '@assets/profilePicture.png';
+
+export interface Props {
+  header?: boolean;
+  footer?: boolean;
+}
+
+const { header, footer } = Astro.props;
+---
+
+<div class:list={['hero', { lateralHero: header && footer }]}>
+  <div class="card">
+    {
+      header && (
+        <header>
+          <img class="profileImage" src={profilePicture} alt="profile picture" />
+
+          <small>{'Hi'}</small>
+          <h1>{"I'm Carles Rojas"}</h1>
+          <h2>{'Software Engineer & Designer from Barcelona'}</h2>
+        </header>
+      )
+    }
+
+    {
+      footer && (
+        <footer>
+          <a href="https://www.linkedin.com/in/carles-rojas/" target="_blank" rel="noopener noreferrer">
+            <img src={LinkedInIcon} alt="LinkedIn Icon" />
+          </a>
+
+          <a href="https://github.com/CarlesRojas" target="_blank" rel="noopener noreferrer">
+            <img src={GithubIcon} alt="Github Icon" />
+          </a>
+
+          <a href="mailto:carlesrojas@outlook.com" target="_blank" rel="noopener noreferrer">
+            <img src={MailIcon} alt="Mail Icon" />
+          </a>
+        </footer>
+      )
+    }
+  </div>
+</div>
+
+<style lang="scss">
+  @import '../styles/shared';
+
+  .hero {
+    position: relative;
+    justify-content: space-between;
+    height: 100%;
+    width: 100%;
+    padding: var(--spacing);
+
+    @include landscape {
+      @include desktop {
+        display: none;
+        padding-right: 0;
+      }
+    }
+
+    &.lateralHero {
+      display: none;
+
+      @include landscape {
+        @include desktop {
+          display: block;
+        }
+      }
+    }
+
+    .card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      height: 100%;
+      width: 100%;
+      padding: var(--spacing);
+      gap: var(--spacing);
+      @include card(1);
+
+      header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+
+        .profileImage {
+          position: relative;
+          width: 100%;
+          max-width: 17rem;
+          aspect-ratio: 1;
+          pointer-events: none;
+          user-select: none;
+
+          @include desktop {
+            max-width: 25rem;
+          }
+        }
+
+        small {
+          max-width: 25rem;
+          margin-top: 1rem;
+          text-align: center;
+          @include text-small;
+          @include text-low;
+        }
+
+        h1 {
+          max-width: 25rem;
+          margin: 0.2rem 0 0.5rem;
+          text-align: center;
+          @include header;
+        }
+
+        h2 {
+          max-width: 25rem;
+          text-align: center;
+
+          @include header-small;
+          @include text-low;
+        }
+      }
+
+      footer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        gap: 2rem;
+
+        a {
+          position: relative;
+          height: 3.5rem;
+          width: 3.5rem;
+          padding: 1rem;
+          @include card(2);
+
+          @include mouse {
+            &:hover {
+              scale: 1.1;
+            }
+          }
+
+          img {
+            filter: invert(1);
+
+            @include light {
+              filter: invert(0);
+            }
+
+            @include dark {
+              filter: invert(1);
+            }
+          }
+        }
+      }
+    }
+  }
+</style>

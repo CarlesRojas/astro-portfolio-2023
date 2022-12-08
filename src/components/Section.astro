@@ -1,0 +1,211 @@
+---
+import LeftArrowIcon from '@assets/icons/arrow-left-line.svg';
+import RightArrowIcon from '@assets/icons/arrow-right-line.svg';
+import type { MarkdownInstance } from 'astro';
+
+export interface Props {
+  title: string;
+  projects: MarkdownInstance<Record<string, any>>[];
+}
+
+const { title, projects } = Astro.props;
+
+const allProjectsVisible = false;
+const firstProjectVisible = 1;
+const lastProjectVisible = -1;
+
+console.log(projects[0].frontmatter);
+---
+
+<div class="section">
+  <h1>{title}</h1>
+
+  <div class="slider">
+    <!-- ref={containerRef} -->
+    <div class="scrollContainer">
+      <!-- ref={parent} -->
+      <ul>
+        {
+          projects.map((project, i) => (
+            <li>
+              <p>{project.frontmatter.title}</p>
+              <img src={`/assets/${project.frontmatter.route}/poster.jpg`} />
+              {project.frontmatter.description.map((paragraph: string) => (
+                <p>{paragraph}</p>
+              ))}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class:list={['scrollButtons', { hidden: allProjectsVisible }]}>
+      <previous-button>
+        <button class:list={[{ disable: firstProjectVisible <= 0 }]}>
+          <img src={LeftArrowIcon} alt="Left Arrow Icon" />
+        </button>
+      </previous-button>
+
+      <next-button>
+        <button class:list={[{ disable: lastProjectVisible >= projects.length - 1 }]}>
+          <img src={RightArrowIcon} alt="Right Arrow Icon" />
+        </button>
+      </next-button>
+    </div>
+  </div>
+
+  <script>
+    const onScrollButtonClicked = (showNext: boolean) => {
+      console.log('click', showNext);
+    };
+
+    class PreviousButton extends HTMLElement {
+      constructor() {
+        super();
+        const button = this.querySelector('button');
+        if (button) button.addEventListener('click', () => onScrollButtonClicked(false));
+      }
+    }
+
+    class NextButton extends HTMLElement {
+      constructor() {
+        super();
+        const button = this.querySelector('button');
+        if (button) button.addEventListener('click', () => onScrollButtonClicked(true));
+      }
+    }
+
+    customElements.define('previous-button', PreviousButton);
+    customElements.define('next-button', NextButton);
+  </script>
+
+  <style lang="scss">
+    @import '../styles/shared';
+
+    .section {
+      --paddingTop: 0.5rem;
+
+      @include tablet {
+        --paddingTop: 0.75rem;
+      }
+
+      h1 {
+        @include header-medium;
+      }
+
+      .slider {
+        position: relative;
+        width: 100%;
+        height: fit-content;
+
+        .scrollButtons {
+          display: none;
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          top: 0;
+          justify-content: space-between;
+          padding: var(--paddingTop) 0 var(--spacing);
+          pointer-events: none;
+
+          &.hidden {
+            display: none !important;
+          }
+
+          @include mouse {
+            display: flex;
+          }
+
+          previous-button,
+          next-button {
+            position: relative;
+            height: 100%;
+            width: var(--spacing);
+
+            button {
+              position: relative;
+              height: 100%;
+              width: 100%;
+              background-color: rgba(0, 0, 0, 0.2);
+              pointer-events: all;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+
+              &.disable {
+                pointer-events: none !important;
+                opacity: 0 !important;
+              }
+
+              @include mouse {
+                opacity: 1;
+
+                @include landscape {
+                  @include desktop {
+                    opacity: 0;
+                  }
+                }
+
+                &:hover {
+                  opacity: 1;
+                  background-color: rgba(0, 0, 0, 0.3);
+
+                  @include light {
+                    background-color: rgba(0, 0, 0, 0.05);
+                  }
+
+                  @include dark {
+                    background-color: rgba(0, 0, 0, 0.3);
+                  }
+                }
+              }
+
+              img {
+                width: 50%;
+                height: 100%;
+                pointer-events: none;
+                filter: invert(1);
+
+                @include light {
+                  filter: invert(0);
+                }
+
+                @include dark {
+                  filter: invert(1);
+                }
+              }
+            }
+          }
+        }
+
+        .scrollContainer {
+          position: relative;
+          overflow-y: hidden;
+          overflow-x: auto;
+
+          ul {
+            width: fit-content;
+            display: flex;
+            gap: 1rem;
+            overflow: visible;
+            padding: var(--paddingTop) var(--spacing) calc(var(--spacing) * 2);
+
+            @include tablet {
+              padding: var(--paddingTop) var(--spacing) var(--spacing);
+              gap: 1.5rem;
+            }
+
+            @include desktop {
+              padding: var(--paddingTop) var(--spacing) var(--spacing);
+            }
+
+            li {
+              overflow: visible;
+            }
+          }
+        }
+      }
+    }
+  </style>
+</div>
