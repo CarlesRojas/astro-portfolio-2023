@@ -9,7 +9,7 @@ export interface Props {
   footer?: boolean;
 }
 
-const { header, footer } = Astro.props;
+const { header, footer } = Astro.props as Props;
 ---
 
 <div class:list={['hero', { lateralHero: header && footer }]}>

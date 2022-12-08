@@ -2,6 +2,7 @@
 import Hero from '@components/Hero.astro';
 import Section from '@components/Section.astro';
 import Layout from '@layouts/Layout.astro';
+import type { Project } from '@src/constants';
 
 const webProjects = await Astro.glob(`../assets/web/*.md`);
 // const gameProjects = await Astro.glob(`../assets/game/*.md`);
@@ -14,9 +15,9 @@ const webProjects = await Astro.glob(`../assets/web/*.md`);
     <Hero header />
 
     <div class="content">
-      <Section projects={webProjects} title="Web Development" />
-      <!-- <Section projects={gameProjects} title="Game Development" />
-      <Section projects={designProjects} title="Product Design" /> -->
+      <Section projects={webProjects.map((project) => project.frontmatter as Project)} title="Web Development" />
+      <!-- <Section projects={gameProjects.map((project) => project.frontmatter as Project)} title="Game Development" />
+      <Section projects={designProjects.map((project) => project.frontmatter as Project)} title="Product Design" /> -->
     </div>
 
     <Hero footer />

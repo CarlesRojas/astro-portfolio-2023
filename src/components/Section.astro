@@ -1,43 +1,39 @@
 ---
 import LeftArrowIcon from '@assets/icons/arrow-left-line.svg';
 import RightArrowIcon from '@assets/icons/arrow-right-line.svg';
-import type { MarkdownInstance } from 'astro';
+import type { Project } from '@src/constants';
+import ProjectCard from './ProjectCard.astro';
 
 export interface Props {
   title: string;
-  projects: MarkdownInstance<Record<string, any>>[];
+  projects: Project[];
 }
 
-const { title, projects } = Astro.props;
+const { title, projects } = Astro.props as Props;
 
 const allProjectsVisible = false;
 const firstProjectVisible = 1;
 const lastProjectVisible = -1;
-
-console.log(projects[0].frontmatter);
 ---
 
 <div class="section">
   <h1>{title}</h1>
 
   <div class="slider">
-    <!-- ref={containerRef} -->
-    <div class="scrollContainer">
-      <!-- ref={parent} -->
-      <ul>
-        {
-          projects.map((project, i) => (
-            <li>
-              <p>{project.frontmatter.title}</p>
-              <img src={`/assets/${project.frontmatter.route}/poster.jpg`} />
-              {project.frontmatter.description.map((paragraph: string) => (
-                <p>{paragraph}</p>
-              ))}
-            </li>
-          ))
-        }
-      </ul>
-    </div>
+    <horizontal-scroll>
+      <div id="scroll" class="scrollContainer">
+        <!-- ref={parent} -->
+        <ul>
+          {
+            projects.map(({ route, title }, i) => (
+              <li>
+                <ProjectCard route={route} title={title} />
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </horizontal-scroll>
 
     <div class:list={['scrollButtons', { hidden: allProjectsVisible }]}>
       <previous-button>
@@ -55,7 +51,10 @@ console.log(projects[0].frontmatter);
   </div>
 
   <script>
-    const onScrollButtonClicked = (showNext: boolean) => {
+    import { DESKTOP_THRESHOLD } from '@src/constants';
+    // @ts-ignore
+
+    const handleScrollButtonClicked = (showNext: boolean) => {
       console.log('click', showNext);
     };
 
@@ -63,7 +62,7 @@ console.log(projects[0].frontmatter);
       constructor() {
         super();
         const button = this.querySelector('button');
-        if (button) button.addEventListener('click', () => onScrollButtonClicked(false));
+        if (button) button.addEventListener('click', () => handleScrollButtonClicked(false));
       }
     }
 
@@ -71,12 +70,34 @@ console.log(projects[0].frontmatter);
       constructor() {
         super();
         const button = this.querySelector('button');
-        if (button) button.addEventListener('click', () => onScrollButtonClicked(true));
+        if (button) button.addEventListener('click', () => handleScrollButtonClicked(true));
+      }
+    }
+
+    class HorizontalScroll extends HTMLElement {
+      scrollContainer: HTMLElement | null = null;
+
+      constructor() {
+        super();
+        this.scrollContainer = this.querySelector('#scroll');
+        if (this.scrollContainer)
+          this.scrollContainer.addEventListener('wheel', this.handleHorizontalScroll.bind(this), { passive: false });
+      }
+
+      handleHorizontalScroll(event: WheelEvent) {
+        event.preventDefault();
+
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        const lateralHero = width > height && width >= DESKTOP_THRESHOLD;
+
+        if (lateralHero && this.scrollContainer) this.scrollContainer.scrollLeft += event.deltaY;
       }
     }
 
     customElements.define('previous-button', PreviousButton);
     customElements.define('next-button', NextButton);
+    customElements.define('horizontal-scroll', HorizontalScroll);
   </script>
 
   <style lang="scss">
@@ -91,6 +112,7 @@ console.log(projects[0].frontmatter);
 
       h1 {
         @include header-medium;
+        padding-left: var(--spacing);
       }
 
       .slider {
