@@ -17,6 +17,5 @@ qr: https://bookly2.vercel.app/
 videoPosition: 0
 video: false
 numberOfScreenshots: 6
-horizontal: false
 process: Bookly is a Progressive Web App made with NextJS for the frontend and backend using TypeScript, tRPC, next-auth and Prisma. It that targets mobile, tablet and desktop devices via responsive UI and it is available in both the Google Play Store and the Microsoft Store. You can also add it to your iPhone by scanning this QR and adding the website to your Home Screen.
 ---

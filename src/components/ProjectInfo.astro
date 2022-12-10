@@ -12,19 +12,7 @@ export interface Props {
 
 const { project } = Astro.props;
 
-const {
-  route,
-  title,
-  subtitle,
-  description,
-  links,
-  qr,
-  videoPosition,
-  video,
-  numberOfScreenshots,
-  horizontal,
-  process,
-} = project;
+const { route, title, subtitle, description, links, qr, process } = project;
 
 const linkImages: { [key in LinkType]: string } = {
   [LinkType.ANDROID]: AndroidIcon,

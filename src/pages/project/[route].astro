@@ -1,4 +1,5 @@
 ---
+import ProjectImages from '@src/components/ProjectImages.astro';
 import ProjectInfo from '@src/components/ProjectInfo.astro';
 import Layout from '@src/layouts/Layout.astro';
 import ProjectLayout from '@src/layouts/ProjectLayout.astro';
@@ -19,27 +20,14 @@ export async function getStaticPaths() {
 }
 
 const { project } = Astro.props;
-
-const {
-  route,
-  title,
-  subtitle,
-  description,
-  links,
-  qr,
-  videoPosition,
-  video,
-  numberOfScreenshots,
-  horizontal,
-  process,
-} = project;
+const { title } = project;
 ---
 
 <Layout title={title}>
   <ProjectLayout>
     <div id="container">
       <section><ProjectInfo project={project} /></section>
-      <section></section>
+      <section><ProjectImages project={project} /></section>
     </div>
   </ProjectLayout>
 </Layout>
@@ -54,6 +42,9 @@ const {
     height: 100%;
     padding: var(--spacing);
     overflow: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing);
 
     @include landscape {
       display: grid;

@@ -17,6 +17,5 @@ qr: https://scoot.pinya.app/
 videoPosition: 0
 video: true
 numberOfScreenshots: 7
-horizontal: false
 process: Scoot is a Progressive Web App made with ReactJS that targets mobile, tablet and desktop devices via responsive UI. You can also add it to your phone by scanning or clicking this QR and adding the website to your Home Screen.
 ---

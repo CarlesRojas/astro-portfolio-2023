@@ -58,27 +58,33 @@ import { FADE_ANIMATION_DURATION } from '@src/constants';
       @include card(1);
       animation: slideIn var(--animation-duration) ease-in-out;
       animation-fill-mode: forwards;
-      translate: 0 100vh;
+      translate: 0 10rem;
+      opacity: 0;
 
       @keyframes slideIn {
         0% {
-          translate: 0 100vh;
+          translate: 0 10rem;
+          opacity: 0;
         }
         100% {
           translate: 0 0vh;
+          opacity: 1;
         }
       }
 
       &.slideOut {
         animation: slideOut var(--animation-duration) ease-in-out;
         animation-fill-mode: forwards;
+        opacity: 1;
 
         @keyframes slideOut {
           0% {
             translate: 0 0vh;
+            opacity: 1;
           }
           100% {
-            translate: 0 100vh;
+            translate: 0 10rem;
+            opacity: 0;
           }
         }
       }
@@ -91,7 +97,6 @@ import { FADE_ANIMATION_DURATION } from '@src/constants';
         right: max(calc(var(--spacing) * -0.5), -1rem);
         width: 2.5rem;
         height: 2.5rem;
-        cursor: pointer;
 
         @include mouse {
           cursor: pointer;

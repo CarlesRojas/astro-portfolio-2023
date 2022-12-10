@@ -1,0 +1,134 @@
+---
+import type { Project } from '@src/constants';
+
+import LeftArrowIcon from '@assets/icons/arrow-left-line.svg';
+import RightArrowIcon from '@assets/icons/arrow-right-line.svg';
+
+export interface Props {
+  project: Project;
+}
+
+interface Media {
+  src: string;
+  type: 'image' | 'video';
+}
+
+const { project } = Astro.props;
+
+const { video, videoPosition, numberOfScreenshots } = project;
+
+const imageRoutes = Array.from({ length: numberOfScreenshots }, (_, i) => i + 1).map(
+  (i) =>
+    ({
+      src: `/assets/${project.route}/screenshot${i}.jpg`,
+      type: 'image',
+    } as Media),
+);
+
+if (video) imageRoutes.splice(videoPosition, 0, { src: `/assets/${project.route}/video.mp4`, type: 'video' } as Media);
+---
+
+<div id="container">
+  <div class="imagesContainer">
+    {
+      imageRoutes.map(({ src, type }) =>
+        type === 'image' ? <img src={src} alt="project image" /> : <video src={src} controls />,
+      )
+    }
+  </div>
+
+  <footer>
+    <button type="button" id="leftArrow"><img src={LeftArrowIcon} alt="Left Arrow Icon" /></button>
+    <div>
+      <p>1</p>
+      <p class="low">{`/ ${numberOfScreenshots + (video ? 1 : 0)}`}</p>
+    </div>
+    <button type="button" id="rightArrow"><img src={RightArrowIcon} alt="Right Arrow Icon" /></button>
+  </footer>
+</div>
+
+<style lang="scss">
+  @import '../styles/mixins.scss';
+  @import '../styles/shared.scss';
+
+  #container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    gap: 2rem;
+    overflow: visible;
+
+    .imagesContainer {
+      position: relative;
+      width: 100%;
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      img,
+      video {
+        @include card(1);
+        position: absolute;
+        width: auto;
+        max-width: 100%;
+        height: auto;
+        max-height: 100%;
+        object-fit: contain;
+      }
+    }
+
+    footer {
+      position: relative;
+      width: 100%;
+      height: fit-content;
+      min-height: fit-content;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+
+      div {
+        display: flex;
+        gap: 0.25rem;
+        text-align: center;
+
+        p {
+          @include text;
+
+          &.low {
+            @include text-low;
+          }
+        }
+      }
+
+      button {
+        @include card(2);
+        padding: 0.5rem;
+        width: 2.5rem;
+        height: 2.5rem;
+
+        @include mouse {
+          cursor: pointer;
+
+          &:hover {
+            transform: scale(1.1);
+          }
+        }
+
+        img {
+          filter: invert(1);
+
+          @include light {
+            filter: invert(0);
+          }
+
+          @include dark {
+            filter: invert(1);
+          }
+        }
+      }
+    }
+  }
+</style>

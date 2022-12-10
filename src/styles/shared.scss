@@ -96,11 +96,11 @@
     box-shadow: rgba(0, 0, 0, 0.1) 0px 26px 30px -10px, rgba(0, 0, 0, 0.2) 0px 16px 10px -10px;
 
     @if $level == 1 {
-      background-color: #e6e6e6;
+      background-color: #eaeaea;
     } @else if $level == 2 {
-      background-color: #d6d6d6;
+      background-color: #dedede;
     } @else {
-      background-color: #747474;
+      background-color: #d6d6d6;
     }
   }
 
