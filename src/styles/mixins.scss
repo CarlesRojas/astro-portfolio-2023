@@ -49,3 +49,21 @@
     @content;
   }
 }
+
+@mixin aspect($width: 16, $height: 9) {
+  aspect-ratio: $width / $height;
+
+  @supports not (aspect-ratio: $width / $height) {
+    &::before {
+      content: '';
+      float: left;
+      padding-top: calc((#{$height} / #{$width}) * 100%);
+    }
+
+    &::after {
+      content: '';
+      display: block;
+      clear: both;
+    }
+  }
+}

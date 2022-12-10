@@ -76,7 +76,7 @@ const linkImages: { [key in LinkType]: string } = {
 
       img {
         width: 5rem;
-        aspect-ratio: 1;
+        @include aspect(1, 1);
 
         @include tablet {
           width: 5.5rem;
@@ -132,7 +132,7 @@ const linkImages: { [key in LinkType]: string } = {
       .qr {
         @include card(3);
         width: 100%;
-        aspect-ratio: 1;
+        @include aspect(1, 1);
         cursor: pointer;
         position: relative;
         padding: 0.7rem;
@@ -156,7 +156,7 @@ const linkImages: { [key in LinkType]: string } = {
       .link {
         @include card(2);
         width: 100%;
-        aspect-ratio: 1;
+        @include aspect(1, 1);
         cursor: pointer;
         position: relative;
         padding: 1rem;

@@ -49,7 +49,7 @@ const { route, title } = Astro.props as Props;
 
     #imageContainer {
       position: relative;
-      aspect-ratio: 16 / 9;
+      @include aspect(16, 9);
       width: 88vw;
       min-width: 88vw;
       max-width: 88vw;
