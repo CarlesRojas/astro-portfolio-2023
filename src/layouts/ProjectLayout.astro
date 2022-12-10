@@ -1,0 +1,122 @@
+---
+import CloseIcon from '@assets/icons/close-line.svg';
+import { FADE_ANIMATION_DURATION } from '@src/constants';
+---
+
+<close-project>
+  <main id="projectPage" style={{ '--animation-duration': `${FADE_ANIMATION_DURATION}s` }}>
+    <div id="projectContainer">
+      <slot />
+      <button type="button" id="close"><img src={CloseIcon} alt="Close Icon" /></button>
+    </div>
+  </main>
+</close-project>
+
+<script>
+  import { FADE_ANIMATION_DURATION } from '@src/constants';
+
+  class CloseProject extends HTMLElement {
+    projectContainer: HTMLElement | null = null;
+
+    constructor() {
+      super();
+      const container = this.querySelector('#projectPage');
+      const closeButton = this.querySelector('#close');
+      this.projectContainer = this.querySelector('#projectContainer');
+
+      container?.addEventListener('click', this.closeProject.bind(this));
+      closeButton?.addEventListener('click', this.closeProject.bind(this));
+      this.projectContainer?.addEventListener('click', (e) => e.stopPropagation());
+    }
+
+    closeProject = () => {
+      this.projectContainer?.classList.add('slideOut');
+
+      setTimeout(() => {
+        window.location.href = '/';
+      }, FADE_ANIMATION_DURATION * 1000);
+    };
+  }
+
+  customElements.define('close-project', CloseProject);
+</script>
+
+<style is:global lang="scss">
+  @import '../styles/mixins.scss';
+  @import '../styles/shared.scss';
+
+  main {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: var(--spacing);
+
+    #projectContainer {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      padding: var(--spacing);
+      @include card(1);
+      animation: slideIn var(--animation-duration) ease-in-out;
+      animation-fill-mode: forwards;
+      translate: 0 100vh;
+
+      @keyframes slideIn {
+        0% {
+          translate: 0 100vh;
+        }
+        100% {
+          translate: 0 0vh;
+        }
+      }
+
+      &.slideOut {
+        animation: slideOut var(--animation-duration) ease-in-out;
+        animation-fill-mode: forwards;
+
+        @keyframes slideOut {
+          0% {
+            translate: 0 0vh;
+          }
+          100% {
+            translate: 0 100vh;
+          }
+        }
+      }
+
+      #close {
+        @include card(2);
+        padding: 0.5rem;
+        position: absolute;
+        top: max(calc(var(--spacing) * -0.5), -1rem);
+        right: max(calc(var(--spacing) * -0.5), -1rem);
+        width: 2.5rem;
+        height: 2.5rem;
+        cursor: pointer;
+
+        @include mouse {
+          transition: scale 0.1s ease-in-out;
+          cursor: pointer;
+
+          &:hover {
+            scale: 1.1;
+          }
+        }
+
+        img {
+          width: 100%;
+          height: 100%;
+          filter: invert(1);
+
+          @include light {
+            filter: invert(0);
+          }
+
+          @include dark {
+            filter: invert(1);
+          }
+        }
+      }
+    }
+  }
+</style>

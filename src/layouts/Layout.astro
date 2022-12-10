@@ -13,8 +13,8 @@ const { title } = Astro.props as Props;
     <meta name="application-name" content="Portfolio" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="apple-mobile-web-app-title" content="Carles Rojas' Portfolio" />
-    <meta name="description" content="Carles Rojas' Portfolio 2023" />
+    <meta name="apple-mobile-web-app-title" content="Carles Rojas Portfolio" />
+    <meta name="description" content="Carles Rojas Portfolio 2023" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="theme-color" content="#000000" />
@@ -30,7 +30,7 @@ const { title } = Astro.props as Props;
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="icon" type="image/svg+xml" href="/logo.svg" />
 
-    <title>{title || 'Carles Rojas - Portfolio'}</title>
+    <title>{`Carles Rojas - ${title}`}</title>
   </head>
 
   <body>

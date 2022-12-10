@@ -10,10 +10,6 @@ export interface Props {
 }
 
 const { title, projects } = Astro.props as Props;
-
-const allProjectsVisible = false;
-const firstProjectVisible = 1;
-const lastProjectVisible = -1;
 ---
 
 <div class="section">
@@ -22,11 +18,10 @@ const lastProjectVisible = -1;
   <div class="slider">
     <horizontal-scroll>
       <div id="scroll" class="scrollContainer">
-        <!-- ref={parent} -->
         <ul>
           {
             projects.map(({ route, title }, i) => (
-              <li id="project">
+              <li id="project" style={{ '--index': i }}>
                 <ProjectCard route={route} title={title} />
               </li>
             ))
@@ -57,7 +52,6 @@ const lastProjectVisible = -1;
       buttonsContainer: HTMLElement | null = null;
       elements: HTMLElement[] = [];
       visibleElements: boolean[] = [];
-      allVisible: boolean = false;
       firstVisible: number = 0;
       lastVisible: number = 0;
       maxVisible: number = 1;
@@ -99,13 +93,14 @@ const lastProjectVisible = -1;
       };
 
       handleWheel = (event: WheelEvent) => {
-        event.preventDefault();
-
         const width = window.innerWidth;
         const height = window.innerHeight;
         const lateralHero = width > height && width >= DESKTOP_THRESHOLD;
 
-        if (lateralHero && this.scrollContainer) this.scrollContainer.scrollLeft += event.deltaY;
+        if (lateralHero && this.scrollContainer) {
+          event.preventDefault();
+          this.scrollContainer.scrollLeft += event.deltaY;
+        }
       };
 
       getPadding = () => {
@@ -143,11 +138,11 @@ const lastProjectVisible = -1;
         this.maxVisible = Math.max(this.maxVisible, this.visibleElements.filter((e) => e).length);
         this.firstVisible = this.visibleElements.indexOf(true);
         this.lastVisible = this.visibleElements.lastIndexOf(true);
-        this.allVisible = this.visibleElements.reduce((a, b) => a && b, true);
+        const allVisible = this.visibleElements.reduce((a, b) => a && b, true);
 
         this.nextButton?.classList.toggle('disable', this.lastVisible >= this.elements.length - 1);
         this.prevButton?.classList.toggle('disable', this.firstVisible <= 0);
-        this.buttonsContainer?.classList.toggle('hidden', this.allVisible);
+        this.buttonsContainer?.classList.toggle('hidden', allVisible);
       };
     }
 
@@ -271,6 +266,24 @@ const lastProjectVisible = -1;
 
             li {
               overflow: visible;
+              animation: moveIn calc(var(--animation-duration) * 0.75) ease-in-out;
+              animation-delay: calc(
+                calc(var(--animation-duration) * 0.75) + calc(calc(var(--animation-duration) * 0.5) * var(--index))
+              );
+              animation-fill-mode: forwards;
+              opacity: 0;
+              translate: 0 1rem;
+
+              @keyframes moveIn {
+                0% {
+                  opacity: 0;
+                  translate: 0 1rem;
+                }
+                100% {
+                  opacity: 1;
+                  translate: 0 0rem;
+                }
+              }
             }
           }
         }

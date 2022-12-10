@@ -1,0 +1,41 @@
+---
+import Layout from '@src/layouts/Layout.astro';
+import ProjectLayout from '@src/layouts/ProjectLayout.astro';
+
+export async function getStaticPaths() {
+  const projects = await Promise.all([
+    Astro.glob(`../../assets/web/*.md`),
+    Astro.glob(`../../assets/game/*.md`),
+    Astro.glob(`../../assets/design/*.md`),
+  ]);
+
+  const allProjects = projects.flat();
+
+  return allProjects.map((project) => ({
+    params: { route: project.frontmatter.route },
+    props: { project: project.frontmatter },
+  }));
+}
+
+const { project } = Astro.props;
+
+const {
+  route,
+  title,
+  subtitle,
+  description,
+  links,
+  qr,
+  videoPosition,
+  video,
+  numberOfScreenshots,
+  horizontal,
+  process,
+} = project;
+---
+
+<Layout title={title}>
+  <ProjectLayout>
+    {title}
+  </ProjectLayout>
+</Layout>

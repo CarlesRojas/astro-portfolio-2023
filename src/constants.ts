@@ -20,3 +20,5 @@ export interface Project {
   horizontal: boolean;
   process: string;
 }
+
+export const FADE_ANIMATION_DURATION = 0.3;

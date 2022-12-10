@@ -3,21 +3,22 @@ import Hero from '@components/Hero.astro';
 import Section from '@components/Section.astro';
 import Layout from '@layouts/Layout.astro';
 import type { Project } from '@src/constants';
+import { FADE_ANIMATION_DURATION } from '@src/constants';
 
 const webProjects = await Astro.glob(`../assets/web/*.md`);
-// const gameProjects = await Astro.glob(`../assets/game/*.md`);
-// const designProjects = await Astro.glob(`../assets/design/*.md`);
+const gameProjects = await Astro.glob(`../assets/game/*.md`);
+const designProjects = await Astro.glob(`../assets/design/*.md`);
 ---
 
-<Layout>
-  <main class="home">
+<Layout title={'Portfolio'}>
+  <main id="home" style={{ '--animation-duration': `${FADE_ANIMATION_DURATION}s` }}>
     <Hero header footer />
     <Hero header />
 
     <div class="content">
       <Section projects={webProjects.map((project) => project.frontmatter as Project)} title="Web Development" />
-      <!-- <Section projects={gameProjects.map((project) => project.frontmatter as Project)} title="Game Development" />
-      <Section projects={designProjects.map((project) => project.frontmatter as Project)} title="Product Design" /> -->
+      <Section projects={gameProjects.map((project) => project.frontmatter as Project)} title="Game Development" />
+      <Section projects={designProjects.map((project) => project.frontmatter as Project)} title="Product Design" />
     </div>
 
     <Hero footer />
@@ -27,7 +28,7 @@ const webProjects = await Astro.glob(`../assets/web/*.md`);
 <style lang="scss">
   @import '../styles/shared';
 
-  .home {
+  #home {
     @include page;
     position: relative;
     width: 100%;
@@ -37,6 +38,18 @@ const webProjects = await Astro.glob(`../assets/web/*.md`);
     justify-content: flex-start;
     gap: 1rem;
     background-color: var(--backgroundDark);
+    animation: fadeIn var(--animation-duration) ease-in-out;
+    animation-fill-mode: forwards;
+    opacity: 0;
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
 
     @include light {
       background-color: var(--backgroundLight);
@@ -59,6 +72,20 @@ const webProjects = await Astro.glob(`../assets/web/*.md`);
         width: 100%;
         max-width: 100%;
         grid-template-columns: min(27%, 40rem) 1fr;
+      }
+    }
+
+    &.fadeOut {
+      animation: fadeOut var(--animation-duration) ease-in-out;
+      animation-fill-mode: forwards;
+
+      @keyframes fadeOut {
+        0% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+        }
       }
     }
 
