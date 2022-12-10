@@ -3,6 +3,8 @@ export const DESKTOP_THRESHOLD = 1200;
 
 export enum LinkType {
   GITHUB = 'github',
+  ANDROID = 'android',
+  WINDOWS = 'windows',
 }
 
 export interface Project {

@@ -8,7 +8,7 @@ const { route, title } = Astro.props as Props;
 ---
 
 <div class="projectCard">
-  <a href="/">
+  <a href={`/${route}`}>
     <div class="imageContainer">
       <img src={`/assets/${route}/poster.jpg`} alt={`${title} poster image`} />
     </div>
