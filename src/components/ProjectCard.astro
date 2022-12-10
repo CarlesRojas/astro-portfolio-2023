@@ -40,7 +40,8 @@ const { route, title } = Astro.props as Props;
 </script>
 
 <style lang="scss">
-  @import '../styles/shared';
+  @import '../styles/mixins.scss';
+  @import '../styles/shared.scss';
 
   .projectCard {
     position: relative;
@@ -85,7 +86,6 @@ const { route, title } = Astro.props as Props;
       }
 
       @include mouse {
-        transition: scale 0.1s ease-in-out;
         cursor: pointer;
 
         &:hover {

@@ -1,0 +1,203 @@
+---
+import AndroidIcon from '@assets/icons/android-fill.svg';
+import GithubIcon from '@assets/icons/github-fill.svg';
+import HololensIcon from '@assets/icons/hololens.svg';
+import ItchioIcon from '@assets/icons/itchio.svg';
+import WindowsIcon from '@assets/icons/microsoft-fill.svg';
+import { LinkType, Project } from '@src/constants';
+
+export interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+
+const {
+  route,
+  title,
+  subtitle,
+  description,
+  links,
+  qr,
+  videoPosition,
+  video,
+  numberOfScreenshots,
+  horizontal,
+  process,
+} = project;
+
+const linkImages: { [key in LinkType]: string } = {
+  [LinkType.ANDROID]: AndroidIcon,
+  [LinkType.WINDOWS]: WindowsIcon,
+  [LinkType.GITHUB]: GithubIcon,
+  [LinkType.HOLOLENS]: HololensIcon,
+  [LinkType.ITCHIO]: ItchioIcon,
+};
+---
+
+<div id="container">
+  <header>
+    <img src={`/assets/${route}/icon.png`} alt="project icon" />
+    <div>
+      <h1 class="title">{title}</h1>
+      <h2 class="subtitle">{subtitle}</h2>
+    </div>
+  </header>
+
+  <div class="description">
+    {description.map((paragraph) => <p>{paragraph}</p>)}
+  </div>
+
+  <p class="low">{process}</p>
+
+  <div class="links">
+    {
+      qr && (
+        <a class="qr" href={qr} target="_blank">
+          <img src={`/assets/${route}/qr.png`} alt="project qr" />
+        </a>
+      )
+    }
+    {
+      links.map(({ type, url }) => (
+        <a class="link" href={url} target="_blank">
+          <img src={linkImages[type]} alt="project qr" />
+        </a>
+      ))
+    }
+  </div>
+</div>
+
+<style lang="scss">
+  @import '../styles/mixins.scss';
+  @import '../styles/shared.scss';
+
+  #container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    gap: 2rem;
+    overflow: visible;
+
+    header {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      grid-template-rows: minmax(0, 1fr);
+      gap: 1rem;
+
+      img {
+        width: 5rem;
+        aspect-ratio: 1;
+
+        @include tablet {
+          width: 5.5rem;
+        }
+
+        @include desktop {
+          width: 6rem;
+        }
+      }
+
+      div {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 0.5rem;
+
+        .title {
+          display: flex;
+          align-items: flex-end;
+          @include header-medium;
+        }
+
+        .subtitle {
+          @include text;
+          @include text-low;
+        }
+      }
+    }
+
+    p {
+      @include text;
+
+      &.low {
+        @include text-low;
+      }
+    }
+
+    .description {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .links {
+      position: relative;
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+      grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
+      max-width: 20rem;
+      overflow: visible;
+
+      .qr {
+        @include card(3);
+        width: 100%;
+        aspect-ratio: 1;
+        cursor: pointer;
+        position: relative;
+        padding: 0.7rem;
+        grid-column: 1 / span 2;
+        grid-row: 1 / span 2;
+
+        @include mouse {
+          cursor: pointer;
+
+          &:hover {
+            scale: 1.05;
+          }
+        }
+
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      .link {
+        @include card(2);
+        width: 100%;
+        aspect-ratio: 1;
+        cursor: pointer;
+        position: relative;
+        padding: 1rem;
+
+        @include mouse {
+          cursor: pointer;
+
+          &:hover {
+            scale: 1.05;
+          }
+        }
+
+        img {
+          width: 100%;
+          height: 100%;
+          filter: invert(1);
+          opacity: 0.5;
+
+          @include light {
+            filter: invert(0);
+            opacity: 0.7;
+          }
+
+          @include dark {
+            filter: invert(1);
+            opacity: 0.5;
+          }
+        }
+      }
+    }
+  }
+</style>

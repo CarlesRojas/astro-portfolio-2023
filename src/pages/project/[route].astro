@@ -1,4 +1,5 @@
 ---
+import ProjectInfo from '@src/components/ProjectInfo.astro';
 import Layout from '@src/layouts/Layout.astro';
 import ProjectLayout from '@src/layouts/ProjectLayout.astro';
 
@@ -36,6 +37,39 @@ const {
 
 <Layout title={title}>
   <ProjectLayout>
-    {title}
+    <div id="container">
+      <section><ProjectInfo project={project} /></section>
+      <section></section>
+    </div>
   </ProjectLayout>
 </Layout>
+
+<style lang="scss">
+  @import '../../styles/mixins.scss';
+  @import '../../styles/shared.scss';
+
+  #container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: var(--spacing);
+    overflow: auto;
+
+    @include landscape {
+      display: grid;
+      grid-template-columns: minmax(0, 0.75fr) minmax(0, 1fr);
+      grid-template-rows: minmax(0, 1fr);
+    }
+
+    section {
+      position: relative;
+      width: 100%;
+      height: fit-content;
+      overflow: visible;
+
+      @include landscape {
+        height: 100%;
+      }
+    }
+  }
+</style>

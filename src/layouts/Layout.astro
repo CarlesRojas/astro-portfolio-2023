@@ -40,6 +40,7 @@ const { title } = Astro.props as Props;
 
 <style is:global lang="scss">
   @import '../styles/mixins.scss';
+  @import '../styles/shared.scss';
 
   :root {
     --backgroundLight: hsl(0, 0%, 96%);
@@ -67,6 +68,7 @@ const { title } = Astro.props as Props;
     position: relative;
     height: 100%;
     width: 100%;
+    overflow: hidden;
   }
 
   body {

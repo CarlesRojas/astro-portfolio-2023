@@ -5,6 +5,8 @@ export enum LinkType {
   GITHUB = 'github',
   ANDROID = 'android',
   WINDOWS = 'windows',
+  HOLOLENS = 'hololens',
+  ITCHIO = 'itchio',
 }
 
 export interface Project {
@@ -12,7 +14,7 @@ export interface Project {
   title: string;
   subtitle: string;
   description: string[];
-  links: { url: string; type: LinkType };
+  links: { url: string; type: LinkType }[];
   qr: string | false;
   videoPosition: number;
   video: boolean;
@@ -21,4 +23,4 @@ export interface Project {
   process: string;
 }
 
-export const FADE_ANIMATION_DURATION = 0.3;
+export const FADE_ANIMATION_DURATION = 0.1; // 0.3;

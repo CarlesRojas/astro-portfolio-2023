@@ -47,7 +47,8 @@ const { header, footer } = Astro.props as Props;
 </div>
 
 <style lang="scss">
-  @import '../styles/shared';
+  @import '../styles/mixins.scss';
+  @import '../styles/shared.scss';
 
   .hero {
     position: relative;
@@ -143,6 +144,8 @@ const { header, footer } = Astro.props as Props;
           @include card(2);
 
           @include mouse {
+            cursor: pointer;
+
             &:hover {
               scale: 1.1;
             }
