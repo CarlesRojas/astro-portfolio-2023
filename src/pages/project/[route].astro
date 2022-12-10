@@ -23,10 +23,10 @@ const { project } = Astro.props;
 const { title } = project;
 ---
 
-<Layout title={title}>
+<Layout title={title} fixed>
   <ProjectLayout>
     <div id="container">
-      <section><ProjectInfo project={project} /></section>
+      <section class="overflow"><ProjectInfo project={project} /></section>
       <section><ProjectImages project={project} /></section>
     </div>
   </ProjectLayout>
@@ -47,6 +47,7 @@ const { title } = project;
     gap: var(--spacing);
 
     @include landscape {
+      overflow: visible;
       display: grid;
       grid-template-columns: minmax(0, 0.75fr) minmax(0, 1fr);
       grid-template-rows: minmax(0, 1fr);
@@ -57,6 +58,12 @@ const { title } = project;
       width: 100%;
       height: fit-content;
       overflow: visible;
+
+      @include landscape {
+        &.overflow {
+          overflow: auto;
+        }
+      }
 
       @include landscape {
         height: 100%;
