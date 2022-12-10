@@ -44,7 +44,11 @@ const { title } = project;
     overflow: auto;
     display: flex;
     flex-direction: column;
-    gap: var(--spacing);
+    gap: calc(var(--spacing) * 3);
+
+    @include tablet {
+      gap: var(--spacing);
+    }
 
     @include landscape {
       overflow: visible;

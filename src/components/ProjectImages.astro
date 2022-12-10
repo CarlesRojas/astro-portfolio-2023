@@ -66,16 +66,24 @@ if (video) imageRoutes.splice(videoPosition, 0, { src: `/assets/${project.route}
       display: flex;
       align-items: center;
       justify-content: center;
+      height: 60vh;
+
+      @include landscape {
+        flex-grow: 1;
+        height: unset;
+      }
 
       img,
       video {
         @include card(1);
         position: absolute;
+        object-fit: contain;
         width: auto;
         max-width: 100%;
         height: auto;
         max-height: 100%;
-        object-fit: contain;
+        pointer-events: none;
+        user-select: none;
       }
     }
 
