@@ -17,4 +17,5 @@ videoPosition: 0
 video: true
 numberOfScreenshots: 7
 process: 'MatchEat is a Progressive Web App made with ReactJS targeting mobile devices. You can add it as an app to your Android or iPhone by scanning this QR and adding the page to your Home Screen.'
+date: 2021-08-01
 ---

@@ -18,4 +18,5 @@ videoPosition: 2
 video: true
 numberOfScreenshots: 6
 process: 'Covid-19 is a Progressive Web App made with ReactJS targeting mobile devices. It is not available right now.'
+date: 2022-02-01
 ---

@@ -12,4 +12,5 @@ videoPosition: 0
 video: true
 numberOfScreenshots: 7
 process: 'Escape is a game made with Unity targeting the mobile devices. It was coded in C# is currently published on the Google Play Store.'
+date: 2018-02-01
 ---

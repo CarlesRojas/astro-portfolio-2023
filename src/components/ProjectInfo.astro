@@ -13,7 +13,7 @@ export interface Props {
 
 const { project } = Astro.props;
 
-const { route, title, subtitle, description, links, qr, process } = project;
+const { route, title, subtitle, description, links, qr, process, date: dateString } = project;
 
 const linkImages: { [key in LinkType]: string } = {
   [LinkType.ANDROID]: AndroidIcon,
@@ -23,6 +23,10 @@ const linkImages: { [key in LinkType]: string } = {
   [LinkType.ITCHIO]: ItchioIcon,
   [LinkType.PDF]: PDFIcon,
 };
+
+const date = new Date(dateString);
+const year = date.getFullYear();
+const month = date.toLocaleString('default', { month: 'long' });
 ---
 
 <div id="container">
@@ -33,6 +37,8 @@ const linkImages: { [key in LinkType]: string } = {
       <h2 class="subtitle">{subtitle}</h2>
     </div>
   </header>
+
+  <p class="low">{`${month} ${year}`}</p>
 
   <div class="description">
     {description.map((paragraph) => <p>{paragraph}</p>)}

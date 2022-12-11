@@ -21,7 +21,7 @@ export interface Project {
   video: boolean;
   numberOfScreenshots: number;
   process: string;
-  position: number;
+  date: Date;
 }
 
 export const FADE_ANIMATION_DURATION = 0.3;

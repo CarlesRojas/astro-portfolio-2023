@@ -18,4 +18,5 @@ videoPosition: 1
 video: true
 numberOfScreenshots: 6
 process: 'Kubic is a Progressive Web App made with ReactJS and ThreeJS. It targets mobile, tablet and desktop devices. The game is available through the Google Play Store and the Microsoft Store. You can also add it to your iPhone by scanning this QR and adding the website to your Home Screen.'
+date: 2022-02-01
 ---

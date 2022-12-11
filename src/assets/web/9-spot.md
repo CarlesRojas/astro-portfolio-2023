@@ -16,4 +16,5 @@ videoPosition: 0
 video: true
 numberOfScreenshots: 6
 process: 'Spot is a Progressive Web App made with ReactJS targeting mobile devices. It is not available right now.'
+date: 2021-08-01
 ---

@@ -9,17 +9,18 @@ const webProjects = await Astro.glob(`../assets/web/*.md`);
 const gameProjects = await Astro.glob(`../assets/game/*.md`);
 const designProjects = await Astro.glob(`../assets/design/*.md`);
 
-const sortedWebProjects = webProjects
-  .map((project) => project.frontmatter as Project)
-  .sort((a, b) => b.position - a.position);
+const sortByDate = (a: Project, b: Project) => {
+  const dateA = new Date(a.date);
+  const dateB = new Date(b.date);
 
-const sortedGameProjects = gameProjects
-  .map((project) => project.frontmatter as Project)
-  .sort((a, b) => b.position - a.position);
+  return dateB.getTime() - dateA.getTime();
+};
 
-const sortedDesignProjects = designProjects
-  .map((project) => project.frontmatter as Project)
-  .sort((a, b) => b.position - a.position);
+const sortedWebProjects = webProjects.map((project) => project.frontmatter as Project).sort(sortByDate);
+const sortedGameProjects = gameProjects.map((project) => project.frontmatter as Project).sort(sortByDate);
+const sortedDesignProjects = designProjects.map((project) => project.frontmatter as Project).sort(sortByDate);
+
+console.log(sortedWebProjects[0].date);
 ---
 
 <Layout title={'Portfolio'}>

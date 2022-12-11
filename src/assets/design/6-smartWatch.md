@@ -13,4 +13,5 @@ videoPosition: 0
 video: true
 numberOfScreenshots: 2
 process: 'SmartWatch is a project modeled and rendered using SolidWorks for an early project at EINA, University School of Design and Art. The time display method is an original idea animated using Flash Pro.'
+date: 2013-05-01
 ---

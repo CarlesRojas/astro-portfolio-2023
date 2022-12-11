@@ -13,4 +13,5 @@ videoPosition: 0
 video: false
 numberOfScreenshots: 8
 process: 'Infinity Gallery is an app made with Unity targeting mobile devices. All images been made using Illustrator and Photoshop. The app was coded in C# is currently published on Google Play Store.'
+date: 2017-05-01
 ---

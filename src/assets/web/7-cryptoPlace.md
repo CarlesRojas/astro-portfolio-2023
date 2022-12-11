@@ -13,4 +13,5 @@ videoPosition: 0
 video: false
 numberOfScreenshots: 3
 process: 'CryptoPlace is a DApp made using ReactJS and Solidity for the Smart Contracts. It hasn’t been deployed to the Ethereum network so it is not available right now.'
+date: 2021-05-01
 ---

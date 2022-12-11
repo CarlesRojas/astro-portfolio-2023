@@ -13,4 +13,5 @@ videoPosition: 1
 video: true
 numberOfScreenshots: 2
 process: 'HoloLens is a concept project modeled using SolidWorks and animated with KeyShot. It only represents a proof of concept and helps visualize how holographic computers could integrate with currently existing devices.'
+date: 2014-02-11
 ---

@@ -12,4 +12,5 @@ videoPosition: 0
 video: false
 numberOfScreenshots: 4
 process: 'Reddon is a Progressive Web App made with ReactJS targeting mobile devices. It is not available right now.'
+date: 2020-09-01
 ---

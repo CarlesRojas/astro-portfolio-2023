@@ -13,4 +13,5 @@ videoPosition: 0
 video: true
 numberOfScreenshots: 4
 process: 'Smartbike was the final project for the 3D Modeling subject at EINA, University School of Design and Art. It was modeled with SolidWorks and animated using KeyShot. The final images were made using the KeyShot renders and Photoshop.'
+date: 2015-06-01
 ---

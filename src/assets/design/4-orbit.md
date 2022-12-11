@@ -13,4 +13,5 @@ videoPosition: 5
 video: true
 numberOfScreenshots: 6
 process: "Orbit was the final career project at EINA, University School of Design and Art. It was modeled using SolidWorks, rendered, and animated with KeyShot and edited with Photoshop. It's a proof of concept for an All-In-One device."
+date: 2015-05-01
 ---

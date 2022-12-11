@@ -13,4 +13,5 @@ videoPosition: 0
 video: false
 numberOfScreenshots: 2
 process: 'ShowBattle is a personal project that was completely created using Photoshop. Al the images used are property of the original show producers. The cards were printed once for personal use.'
+date: 2013-08-01
 ---

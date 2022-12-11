@@ -18,4 +18,5 @@ videoPosition: 0
 video: false
 numberOfScreenshots: 6
 process: 'Bookly is a Progressive Web App made with NextJS, TypeScript, tRPC, next-auth and Prisma. It targets mobile, tablet and desktop devices and it is available through the Google Play Store and the Microsoft Store. You can also add it to your iPhone by scanning this QR and adding the website to your Home Screen.'
+date: 2022-09-01
 ---
