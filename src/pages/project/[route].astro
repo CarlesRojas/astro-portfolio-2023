@@ -64,13 +64,13 @@ const { title } = project;
       width: 100%;
       height: fit-content;
       overflow: visible;
-
-      &.overflow {
-        padding-left: var(--spacing);
-      }
+      padding-left: var(--spacing);
 
       @include landscape {
+        padding-left: 0;
+
         &.overflow {
+          padding-left: var(--spacing);
           overflow: auto;
         }
       }
