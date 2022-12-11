@@ -57,9 +57,9 @@ const { route, title } = Astro.props as Props;
       @include card(1);
 
       @include landscape {
-        width: 42vw;
-        min-width: 42vw;
-        max-width: 42vw;
+        width: 30vw;
+        min-width: 30vw;
+        max-width: 30vw;
       }
 
       @include tablet {
@@ -68,10 +68,18 @@ const { route, title } = Astro.props as Props;
         max-width: 42vw;
       }
 
+      @include landscape {
+        @include tablet {
+          width: 28vw;
+          min-width: 28vw;
+          max-width: 28vw;
+        }
+      }
+
       @include desktop {
-        width: 30vw;
-        min-width: 30vw;
-        max-width: 30vw;
+        width: 29vw;
+        min-width: 29vw;
+        max-width: 29vw;
       }
 
       @include landscape {
