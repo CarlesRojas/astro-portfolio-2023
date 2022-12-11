@@ -2,7 +2,7 @@
 import GithubIcon from '@assets/icons/github-fill.svg';
 import LinkedInIcon from '@assets/icons/linkedin-fill.svg';
 import MailIcon from '@assets/icons/mail-fill.svg';
-import profilePicture from '@assets/profilePictureSmall.png';
+import profilePicture from '@assets/profile/Profile.png';
 
 export interface Props {
   header?: boolean;
@@ -94,14 +94,13 @@ const { header, footer } = Astro.props as Props;
         align-items: center;
         justify-content: center;
         width: 100%;
+        gap: 1rem;
 
         @include landscape {
           flex-direction: row;
-          gap: 1rem;
 
           @include desktop {
             flex-direction: column;
-            gap: 0;
           }
         }
 
