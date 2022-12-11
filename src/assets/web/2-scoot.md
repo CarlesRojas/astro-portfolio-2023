@@ -1,12 +1,11 @@
 ---
 route: scoot
 title: scoot
-subtitle: Browse for your next motorcycle in a comfortable way.
+subtitle: 'Navigate a great catalog of motorcycles by Mundimoto.'
 description:
   [
-    The application allows you to explore Mundimoto's motorcycles in a very pleasant and comfortable way,
-    while it learns your preferences to show you more relevant results.,
-    This app was developed alongside Jaume Ballester and Santi Rubio for the 2022 HackUPC.,
+    'The application allows you to explore Mundimoto’s motorcycles while it learns your preferences to show you more relevant results.',
+    'This app was developed alongside Jaume Ballester and Santi Rubio for the 2022 HackUPC.',
   ]
 links:
   [
@@ -17,5 +16,5 @@ qr: https://scoot.pinya.app/
 videoPosition: 0
 video: true
 numberOfScreenshots: 7
-process: Scoot is a Progressive Web App made with ReactJS that targets mobile, tablet and desktop devices via responsive UI. You can also add it to your phone by scanning or clicking this QR and adding the website to your Home Screen.
+process: 'Scoot is a Progressive Web App made with ReactJS that targets mobile, tablet and desktop devices. You can also add it to your phone by scanning or clicking this QR and adding the website to your Home Screen.'
 ---
