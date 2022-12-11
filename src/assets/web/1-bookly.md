@@ -1,7 +1,7 @@
 ---
 route: bookly
 title: bookly
-subtitle: Keep track of the books youve read and want to read.
+subtitle: Keep track of the books you've read and want to read.
 description:
   [
     Search for any book and add it to your library. Keep track of the books you are reading and the ones you wish to read.,
