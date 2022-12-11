@@ -117,6 +117,41 @@
   }
 }
 
+// @mixin layer($level) {
+
+//   @if $level == 1 {
+//     background-color: #232633;
+//   } @else if $level == 2 {
+//     background-color: #2c3041;
+//   } @else {
+//     background-color: #9ea5c7;
+//   }
+
+//   @include light {
+//     box-shadow: rgba(0, 0, 0, 0.1) 0px 26px 30px -10px, rgba(0, 0, 0, 0.2) 0px 16px 10px -10px;
+
+//     @if $level == 1 {
+//       background-color: #e6e6e6;
+//     } @else if $level == 2 {
+//       background-color: #d6d6d6;
+//     } @else {
+//       background-color: #747474;
+//     }
+//   }
+
+//   @include dark {
+//     box-shadow: rgba(0, 0, 0, 0.4) 0px 26px 30px -10px, rgba(0, 0, 0, 0.5) 0px 16px 10px -10px;
+
+//     @if $level == 1 {
+//       background-color: #232633;
+//     } @else if $level == 2 {
+//       background-color: #2c3041;
+//     } @else {
+//       background-color: #9ea5c7;
+//     }
+//   }
+// }
+
 @mixin page {
   position: relative;
   display: flex;

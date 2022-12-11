@@ -3,8 +3,8 @@ import GithubIcon from '@assets/icons/github-fill.svg';
 import LinkedInIcon from '@assets/icons/linkedin-fill.svg';
 import MailIcon from '@assets/icons/mail-fill.svg';
 import profilePicture from '@assets/profile/Profile.png';
+import { default as DarkModeToggle } from './DarkModeToggle.astro';
 
-export interface Props {
   header?: boolean;
   footer?: boolean;
 }
@@ -31,17 +31,21 @@ const { header, footer } = Astro.props as Props;
     {
       footer && (
         <footer>
-          <a href="https://www.linkedin.com/in/carles-rojas/" target="_blank" rel="noopener noreferrer">
-            <img src={LinkedInIcon} alt="LinkedIn Icon" />
-          </a>
+          <DarkModeToggle />
 
-          <a href="https://github.com/CarlesRojas" target="_blank" rel="noopener noreferrer">
-            <img src={GithubIcon} alt="Github Icon" />
-          </a>
+          <div>
+            <a href="https://www.linkedin.com/in/carles-rojas/" target="_blank" rel="noopener noreferrer">
+              <img src={LinkedInIcon} alt="LinkedIn Icon" />
+            </a>
 
-          <a href="mailto:carlesrojas@outlook.com" target="_blank" rel="noopener noreferrer">
-            <img src={MailIcon} alt="Mail Icon" />
-          </a>
+            <a href="https://github.com/CarlesRojas" target="_blank" rel="noopener noreferrer">
+              <img src={GithubIcon} alt="Github Icon" />
+            </a>
+
+            <a href="mailto:carlesrojas@outlook.com" target="_blank" rel="noopener noreferrer">
+              <img src={MailIcon} alt="Mail Icon" />
+            </a>
+          </div>
         </footer>
       )
     }
@@ -84,7 +88,7 @@ const { header, footer } = Astro.props as Props;
       align-items: center;
       height: 100%;
       width: 100%;
-      padding: var(--spacing);
+      padding: calc(var(--spacing) * 2) var(--spacing);
       gap: var(--spacing);
       @include card(1);
 
@@ -201,35 +205,45 @@ const { header, footer } = Astro.props as Props;
 
       footer {
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
         width: 100%;
         gap: 2rem;
 
-        a {
-          position: relative;
-          height: 3.5rem;
-          width: 3.5rem;
-          padding: 1rem;
-          @include card(2);
+        div {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          gap: 2rem;
 
-          @include mouse {
+
+          a {
+            position: relative;
+            height: 3.5rem;
+            width: 3.5rem;
+            padding: 1rem;
+            @include card(2);
+
+            @include mouse {
             cursor: pointer;
 
-            &:hover {
-              scale: 1.1;
-            }
-          }
-
-          img {
-            filter: invert(1);
-
-            @include light {
-              filter: invert(0);
+              &:hover {
+                scale: 1.1;
+              }
             }
 
-            @include dark {
+            img {
               filter: invert(1);
+
+              @include light {
+                filter: invert(0);
+              }
+
+              @include dark {
+                filter: invert(1);
+              }
             }
           }
         }
