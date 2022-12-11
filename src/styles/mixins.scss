@@ -16,6 +16,12 @@
   }
 }
 
+@mixin big-desktop {
+  @media (orientation: portrait) and (min-width: 1200px), (orientation: landscape) and (min-width: 1500px) {
+    @content;
+  }
+}
+
 @mixin mouse {
   @media (hover: hover) {
     @content;
