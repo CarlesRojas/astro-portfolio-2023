@@ -71,9 +71,13 @@ if (video) imageRoutes.splice(videoPosition, 0, { src: `/assets/${project.route}
     currentImageContainer: Element | null = null;
     images: Element[] = [];
 
+    swipeStartX = 0;
+    swiping = false;
+
     constructor() {
       super();
 
+      const container = this.querySelector('#container');
       const prevButton = this.querySelector('#leftArrow');
       const nextButton = this.querySelector('#rightArrow');
       this.currentImageContainer = this.querySelector('#current');
@@ -84,6 +88,11 @@ if (video) imageRoutes.splice(videoPosition, 0, { src: `/assets/${project.route}
         this.images.push(newMedia);
       }
 
+      if (container) {
+        container.addEventListener('touchstart', (e: Event) => this.handleTouchStart(e as TouchEvent));
+        container.addEventListener('touchmove', (e: Event) => this.hendleTouchMove(e as TouchEvent));
+        container.addEventListener('touchend', (e: Event) => this.handleTouchEnd(e as TouchEvent));
+      }
       if (prevButton) prevButton.addEventListener('click', this.handleViewPrevious.bind(this));
       if (nextButton) nextButton.addEventListener('click', this.handleViewNext.bind(this));
     }
@@ -128,6 +137,31 @@ if (video) imageRoutes.splice(videoPosition, 0, { src: `/assets/${project.route}
       this.images[this.currentImageNumber].classList.add('enterFromRight');
 
       if (this.currentImageContainer) this.currentImageContainer.textContent = `${this.currentImageNumber + 1}`;
+    };
+
+    handleTouchStart = (e: TouchEvent) => {
+      this.swiping = true;
+      this.swipeStartX = e.touches[0].clientX;
+    };
+
+    hendleTouchMove = (e: TouchEvent) => {
+      if (!this.swiping) return;
+
+      const endX = e.changedTouches[0].clientX;
+      const diff = endX - this.swipeStartX;
+
+      if (Math.abs(diff) > 50) {
+        this.swiping = false;
+        this.swipeStartX = 0;
+
+        if (diff > 0) this.handleViewPrevious();
+        else this.handleViewNext();
+      }
+    };
+
+    handleTouchEnd = (e: TouchEvent) => {
+      this.swiping = false;
+      this.swipeStartX = 0;
     };
   }
 
