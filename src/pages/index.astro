@@ -77,7 +77,7 @@ const designProjects = await Astro.glob(`../assets/design/*.md`);
     }
 
     &.fadeOut {
-      animation: fadeOut var(--animation-duration) ease-in-out;
+      animation: fadeOut var(--animation-duration) ease-in-out; // XXX
       animation-fill-mode: forwards;
 
       @keyframes fadeOut {
