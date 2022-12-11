@@ -13,8 +13,6 @@ export async function getStaticPaths() {
 
   const allProjects = projects.flat();
 
-  console.log(allProjects.map((project) => project.frontmatter.title));
-
   return allProjects.map((project) => ({
     params: { route: project.frontmatter.route },
     props: { project: project.frontmatter },

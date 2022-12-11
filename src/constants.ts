@@ -7,6 +7,7 @@ export enum LinkType {
   WINDOWS = 'windows',
   HOLOLENS = 'hololens',
   ITCHIO = 'itchio',
+  PDF = 'pdf',
 }
 
 export interface Project {
@@ -20,6 +21,7 @@ export interface Project {
   video: boolean;
   numberOfScreenshots: number;
   process: string;
+  position: number;
 }
 
 export const FADE_ANIMATION_DURATION = 0.3;

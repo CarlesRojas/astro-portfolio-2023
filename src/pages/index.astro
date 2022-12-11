@@ -8,6 +8,18 @@ import { FADE_ANIMATION_DURATION } from '@src/constants';
 const webProjects = await Astro.glob(`../assets/web/*.md`);
 const gameProjects = await Astro.glob(`../assets/game/*.md`);
 const designProjects = await Astro.glob(`../assets/design/*.md`);
+
+const sortedWebProjects = webProjects
+  .map((project) => project.frontmatter as Project)
+  .sort((a, b) => b.position - a.position);
+
+const sortedGameProjects = gameProjects
+  .map((project) => project.frontmatter as Project)
+  .sort((a, b) => b.position - a.position);
+
+const sortedDesignProjects = designProjects
+  .map((project) => project.frontmatter as Project)
+  .sort((a, b) => b.position - a.position);
 ---
 
 <Layout title={'Portfolio'}>
@@ -16,9 +28,9 @@ const designProjects = await Astro.glob(`../assets/design/*.md`);
     <Hero header />
 
     <div class="content">
-      <Section projects={webProjects.map((project) => project.frontmatter as Project)} title="Web Development" />
-      <Section projects={gameProjects.map((project) => project.frontmatter as Project)} title="Game Development" />
-      <Section projects={designProjects.map((project) => project.frontmatter as Project)} title="Product Design" />
+      <Section projects={sortedWebProjects} title="Web Development" />
+      <Section projects={sortedGameProjects} title="Game Development" />
+      <Section projects={sortedDesignProjects} title="Product Design" />
     </div>
 
     <Hero footer />
