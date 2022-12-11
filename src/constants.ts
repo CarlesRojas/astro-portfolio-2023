@@ -25,3 +25,5 @@ export interface Project {
 }
 
 export const FADE_ANIMATION_DURATION = 0.3;
+
+export const THEME_PROJECT = 'carlesrojas_portfolio_theme';

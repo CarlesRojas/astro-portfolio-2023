@@ -39,6 +39,20 @@ const { title, fixed } = Astro.props as Props;
   </body>
 </html>
 
+<script>
+  import { THEME_PROJECT } from '@src/constants';
+
+  const theme = localStorage.getItem(THEME_PROJECT);
+  if (theme) document.documentElement.setAttribute('data-theme', theme);
+
+  const handleDarkModeChange = () => {
+    document.documentElement.removeAttribute('data-theme');
+    localStorage.removeItem(THEME_PROJECT);
+  };
+
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', handleDarkModeChange);
+</script>
+
 <style is:global lang="scss">
   @import '../styles/mixins.scss';
   @import '../styles/shared.scss';

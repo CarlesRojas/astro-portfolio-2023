@@ -6,6 +6,8 @@
 </dark-mode>
 
 <script>
+  import { THEME_PROJECT } from '@src/constants';
+
   class DarkMode extends HTMLElement {
     checkbox: HTMLInputElement | null = null;
 
@@ -13,10 +15,17 @@
       super();
       this.checkbox = this.querySelector('#darkModeCheckbox');
 
-      if (this.checkbox) this.checkbox.addEventListener('change', this.handleCheckboxChange.bind(this));
-
+      const theme = localStorage.getItem(THEME_PROJECT);
       const initialValue = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      this.checkbox.checked = initialValue;
+
+      if (this.checkbox) {
+        this.checkbox.addEventListener('change', this.handleCheckboxChange.bind(this));
+
+        if (theme) {
+          document.documentElement.setAttribute('data-theme', theme);
+          this.checkbox.checked = theme === 'dark';
+        } else this.checkbox.checked = initialValue;
+      }
 
       window
         .matchMedia('(prefers-color-scheme: dark)')
@@ -26,12 +35,13 @@
     handleDarkModeChange = (event: MediaQueryListEvent) => {
       if (!this.checkbox) return;
       this.checkbox.checked = event.matches;
-      document.documentElement.removeAttribute('data-theme');
     };
 
     handleCheckboxChange = () => {
       if (!this.checkbox) return;
       document.documentElement.setAttribute('data-theme', this.checkbox.checked ? 'dark' : 'light');
+
+      localStorage.setItem(THEME_PROJECT, this.checkbox.checked ? 'dark' : 'light');
     };
   }
 
