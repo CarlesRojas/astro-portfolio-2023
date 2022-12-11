@@ -34,9 +34,21 @@ if (video) imageRoutes.splice(videoPosition, 0, { src: `/assets/${project.route}
       {
         imageRoutes.map(({ src, type }, i) =>
           type === 'image' ? (
-            <img id={`media${i}`} class={i !== 0 ? 'hidden' : ''} src={src} alt="project image" />
+            <img
+              id={`media${i}`}
+              class={i === 0 ? 'interactible firstElemVisible' : ''}
+              src={src}
+              alt="project image"
+            />
           ) : (
-            <video id={`media${i}`} class={i !== 0 ? 'hidden' : ''} src={src} controls autoplay muted />
+            <video
+              id={`media${i}`}
+              class={i === 0 ? 'interactible firstElemVisible' : ''}
+              src={src}
+              controls
+              autoplay
+              muted
+            />
           ),
         )
       }
@@ -76,13 +88,27 @@ if (video) imageRoutes.splice(videoPosition, 0, { src: `/assets/${project.route}
       if (nextButton) nextButton.addEventListener('click', this.handleViewNext.bind(this));
     }
 
+    removeAllAnimationClasses = (image: Element) => {
+      image.classList.remove('enterFromLeft');
+      image.classList.remove('enterFromRight');
+      image.classList.remove('leaveToLeft');
+      image.classList.remove('leaveToRight');
+      image.classList.remove('firstElemVisible');
+    };
+
     handleViewPrevious = () => {
       const prevVisibleMedia = this.currentImageNumber;
       this.currentImageNumber -= 1;
       if (this.currentImageNumber < 0) this.currentImageNumber = this.images.length - 1;
 
-      this.images[prevVisibleMedia].classList.add('hidden');
-      this.images[this.currentImageNumber].classList.remove('hidden');
+      this.images[prevVisibleMedia].classList.remove('interactible');
+      this.images[this.currentImageNumber].classList.add('interactible');
+
+      this.removeAllAnimationClasses(this.images[prevVisibleMedia]);
+      this.removeAllAnimationClasses(this.images[this.currentImageNumber]);
+
+      this.images[prevVisibleMedia].classList.add('leaveToRight');
+      this.images[this.currentImageNumber].classList.add('enterFromLeft');
 
       if (this.currentImageContainer) this.currentImageContainer.textContent = `${this.currentImageNumber + 1}`;
     };
@@ -92,8 +118,14 @@ if (video) imageRoutes.splice(videoPosition, 0, { src: `/assets/${project.route}
       this.currentImageNumber += 1;
       if (this.currentImageNumber >= this.images.length) this.currentImageNumber = 0;
 
-      this.images[prevVisibleMedia].classList.add('hidden');
-      this.images[this.currentImageNumber].classList.remove('hidden');
+      this.images[prevVisibleMedia].classList.remove('interactible');
+      this.images[this.currentImageNumber].classList.add('interactible');
+
+      this.removeAllAnimationClasses(this.images[prevVisibleMedia]);
+      this.removeAllAnimationClasses(this.images[this.currentImageNumber]);
+
+      this.images[prevVisibleMedia].classList.add('leaveToLeft');
+      this.images[this.currentImageNumber].classList.add('enterFromRight');
 
       if (this.currentImageContainer) this.currentImageContainer.textContent = `${this.currentImageNumber + 1}`;
     };
@@ -141,9 +173,93 @@ if (video) imageRoutes.splice(videoPosition, 0, { src: `/assets/${project.route}
         pointer-events: none;
         user-select: none;
         pointer-events: all;
+        opacity: 0;
+        pointer-events: none;
 
-        &.hidden {
-          display: none;
+        &.interactible {
+          pointer-events: all;
+        }
+
+        &.firstElemVisible {
+          opacity: 1;
+        }
+
+        &.enterFromLeft {
+          animation: enterFromLeft var(--animation-duration) ease-in-out; // TODO change to the animation speed variable
+          animation-fill-mode: forwards;
+          animation-delay: calc(var(--animation-duration) * 1);
+        }
+
+        &.enterFromRight {
+          animation: enterFromRight var(--animation-duration) ease-in-out;
+          animation-fill-mode: forwards;
+          animation-delay: calc(var(--animation-duration) * 1);
+        }
+
+        &.leaveToLeft {
+          animation: leaveToLeft var(--animation-duration) ease-in-out;
+          animation-fill-mode: forwards;
+        }
+
+        &.leaveToRight {
+          animation: leaveToRight var(--animation-duration) ease-in-out;
+          animation-fill-mode: forwards;
+        }
+
+        @keyframes enterFromLeft {
+          0% {
+            transform: translateX(-3rem);
+            opacity: 0;
+          }
+          50% {
+            opacity: 1;
+          }
+          100% {
+            transform: translateX(0);
+            opacity: 1;
+          }
+        }
+
+        @keyframes enterFromRight {
+          0% {
+            transform: translateX(3rem);
+            opacity: 0;
+          }
+          50% {
+            opacity: 1;
+          }
+          100% {
+            transform: translateX(0);
+            opacity: 1;
+          }
+        }
+
+        @keyframes leaveToLeft {
+          0% {
+            transform: translateX(0);
+            opacity: 1;
+          }
+          50% {
+            opacity: 1;
+          }
+          100% {
+            transform: translateX(-3rem);
+            opacity: 0;
+          }
+        }
+
+        @keyframes leaveToRight {
+          0% {
+            transform: translateX(0);
+            opacity: 1;
+          }
+          50% {
+            opacity: 1;
+          }
+          100% {
+            transform: translateX(3rem);
+            opacity: 0;
+          }
         }
       }
     }
