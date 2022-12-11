@@ -50,10 +50,10 @@
   }
 }
 
-@mixin aspect($width: 16, $height: 9) {
-  aspect-ratio: $width / $height;
+@mixin aspect-ratio($width: 16, $height: 9) {
+  aspect-ratio: calc($width / $height);
 
-  @supports not (aspect-ratio: $width / $height) {
+  @supports not (aspect-ratio: calc($width / $height)) {
     &::before {
       content: '';
       float: left;
