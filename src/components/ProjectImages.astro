@@ -28,24 +28,79 @@ const imageRoutes = Array.from({ length: numberOfScreenshots }, (_, i) => i + 1)
 if (video) imageRoutes.splice(videoPosition, 0, { src: `/assets/${project.route}/video.mp4`, type: 'video' } as Media);
 ---
 
-<div id="container">
-  <div class="imagesContainer">
-    {
-      imageRoutes.map(({ src, type }) =>
-        type === 'image' ? <img src={src} alt="project image" /> : <video src={src} controls />,
-      )
-    }
-  </div>
-
-  <footer>
-    <button type="button" id="leftArrow"><img src={LeftArrowIcon} alt="Left Arrow Icon" /></button>
-    <div>
-      <p>1</p>
-      <p class="low">{`/ ${numberOfScreenshots + (video ? 1 : 0)}`}</p>
+<image-gallery>
+  <div id="container">
+    <div class="imagesContainer">
+      {
+        imageRoutes.map(({ src, type }, i) =>
+          type === 'image' ? (
+            <img id={`media${i}`} class={i !== 0 ? 'hidden' : ''} src={src} alt="project image" />
+          ) : (
+            <video id={`media${i}`} class={i !== 0 ? 'hidden' : ''} src={src} controls autoplay muted />
+          ),
+        )
+      }
     </div>
-    <button type="button" id="rightArrow"><img src={RightArrowIcon} alt="Right Arrow Icon" /></button>
-  </footer>
-</div>
+
+    <footer>
+      <button type="button" id="leftArrow"><img src={LeftArrowIcon} alt="Left Arrow Icon" /></button>
+      <div>
+        <p id="current">1</p>
+        <p class="low">{`/ ${numberOfScreenshots + (video ? 1 : 0)}`}</p>
+      </div>
+      <button type="button" id="rightArrow"><img src={RightArrowIcon} alt="Right Arrow Icon" /></button>
+    </footer>
+  </div>
+</image-gallery>
+
+<script>
+  class ImageGallery extends HTMLElement {
+    currentImageNumber = 0;
+    currentImageContainer: Element | null = null;
+    images: Element[] = [];
+
+    constructor() {
+      super();
+
+      const prevButton = this.querySelector('#leftArrow');
+      const nextButton = this.querySelector('#rightArrow');
+      this.currentImageContainer = this.querySelector('#current');
+
+      while (true) {
+        const newMedia = this.querySelector(`#media${this.images.length}`);
+        if (!newMedia) break;
+        this.images.push(newMedia);
+      }
+
+      if (prevButton) prevButton.addEventListener('click', this.handleViewPrevious.bind(this));
+      if (nextButton) nextButton.addEventListener('click', this.handleViewNext.bind(this));
+    }
+
+    handleViewPrevious = () => {
+      const prevVisibleMedia = this.currentImageNumber;
+      this.currentImageNumber -= 1;
+      if (this.currentImageNumber < 0) this.currentImageNumber = this.images.length - 1;
+
+      this.images[prevVisibleMedia].classList.add('hidden');
+      this.images[this.currentImageNumber].classList.remove('hidden');
+
+      if (this.currentImageContainer) this.currentImageContainer.textContent = `${this.currentImageNumber + 1}`;
+    };
+
+    handleViewNext = () => {
+      const prevVisibleMedia = this.currentImageNumber;
+      this.currentImageNumber += 1;
+      if (this.currentImageNumber >= this.images.length) this.currentImageNumber = 0;
+
+      this.images[prevVisibleMedia].classList.add('hidden');
+      this.images[this.currentImageNumber].classList.remove('hidden');
+
+      if (this.currentImageContainer) this.currentImageContainer.textContent = `${this.currentImageNumber + 1}`;
+    };
+  }
+
+  customElements.define('image-gallery', ImageGallery);
+</script>
 
 <style lang="scss">
   @import '../styles/mixins.scss';
@@ -67,6 +122,7 @@ if (video) imageRoutes.splice(videoPosition, 0, { src: `/assets/${project.route}
       align-items: center;
       justify-content: center;
       height: 60vh;
+      pointer-events: none;
 
       @include landscape {
         flex-grow: 1;
@@ -84,6 +140,11 @@ if (video) imageRoutes.splice(videoPosition, 0, { src: `/assets/${project.route}
         max-height: 100%;
         pointer-events: none;
         user-select: none;
+        pointer-events: all;
+
+        &.hidden {
+          display: none;
+        }
       }
     }
 
