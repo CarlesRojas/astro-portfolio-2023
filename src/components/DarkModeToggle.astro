@@ -1,16 +1,52 @@
----
-// const darkTheme = window.matchMedia('(prefers-color-scheme: dark)');
+<dark-mode>
+  <label class="switch">
+    <input id="darkModeCheckbox" type="checkbox" />
+    <span class="slider"></span>
+  </label>
+</dark-mode>
 
-// console.log(darkTheme);
----
+<script>
+  class DarkMode extends HTMLElement {
+    checkbox: HTMLInputElement | null = null;
 
-<label class="switch">
-  <input type="checkbox" />
-  <span class="slider"></span>
-</label>
+    constructor() {
+      super();
+      this.checkbox = this.querySelector('#darkModeCheckbox');
+
+      if (this.checkbox) {
+        this.checkbox.addEventListener('change', this.handleCheckboxChange.bind(this));
+      }
+
+      window
+        .matchMedia('(prefers-color-scheme: dark)')
+        .addEventListener('change', this.handleDarkModeChange.bind(this));
+    }
+
+    handleDarkModeChange = (event: MediaQueryListEvent) => {
+      if (!this.checkbox) return;
+      this.checkbox.checked = event.matches;
+      document.documentElement.removeAttribute('data-theme');
+    };
+
+    handleCheckboxChange = () => {
+      if (!this.checkbox) return;
+      document.documentElement.setAttribute('data-theme', this.checkbox.checked ? 'dark' : 'light');
+    };
+  }
+
+  customElements.define('dark-mode', DarkMode);
+</script>
 
 <style lang="scss">
   @import '../styles/shared';
+
+  dark-mode {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
   .switch {
     --width-of-switch: 4em;

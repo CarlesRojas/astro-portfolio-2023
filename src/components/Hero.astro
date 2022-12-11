@@ -5,6 +5,7 @@ import MailIcon from '@assets/icons/mail-fill.svg';
 import profilePicture from '@assets/profile/Profile.png';
 import { default as DarkModeToggle } from './DarkModeToggle.astro';
 
+export interface Props {
   header?: boolean;
   footer?: boolean;
 }
@@ -218,7 +219,6 @@ const { header, footer } = Astro.props as Props;
           width: 100%;
           gap: 2rem;
 
-
           a {
             position: relative;
             height: 3.5rem;
@@ -227,7 +227,7 @@ const { header, footer } = Astro.props as Props;
             @include card(2);
 
             @include mouse {
-            cursor: pointer;
+              cursor: pointer;
 
               &:hover {
                 scale: 1.1;
