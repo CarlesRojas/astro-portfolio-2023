@@ -13,9 +13,10 @@
       super();
       this.checkbox = this.querySelector('#darkModeCheckbox');
 
-      if (this.checkbox) {
-        this.checkbox.addEventListener('change', this.handleCheckboxChange.bind(this));
-      }
+      if (this.checkbox) this.checkbox.addEventListener('change', this.handleCheckboxChange.bind(this));
+
+      const initialValue = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      this.checkbox.checked = initialValue;
 
       window
         .matchMedia('(prefers-color-scheme: dark)')
