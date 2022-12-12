@@ -2,6 +2,20 @@
 import Hero from '@src/components/Hero.astro';
 import { FADE_ANIMATION_DURATION } from '@src/constants';
 import Layout from '@src/layouts/Layout.astro';
+
+interface Entry {
+  title: string;
+  place: string;
+  date: string;
+}
+
+const experience = Object.values((await Astro.glob('../assets/aboutme/experience.md'))[0].frontmatter).map(
+  (elem) => elem as Entry,
+);
+
+const qualifications = Object.values((await Astro.glob('../assets/aboutme/qualifications.md'))[0].frontmatter).map(
+  (elem) => elem as Entry,
+);
 ---
 
 <Layout title={'About me'}>
@@ -9,9 +23,37 @@ import Layout from '@src/layouts/Layout.astro';
     <Hero header footer about />
     <Hero header about />
 
-    <div class="content"></div>
+    <div class="content">
+      <section>
+        <h1>Experience</h1>
 
-    <Hero footer about />
+        {
+          experience.map(({ title, place, date }, i) => (
+            <div style={{ '--index': i }}>
+              <h2>{title}</h2>
+              <h3>{place}</h3>
+              <p>{date}</p>
+            </div>
+          ))
+        }
+      </section>
+
+      <section>
+        <h1>Qualifications</h1>
+
+        {
+          qualifications.map(({ title, place, date }, i) => (
+            <div style={{ '--index': i }}>
+              <h2>{title}</h2>
+              <h3>{place}</h3>
+              <p>{date}</p>
+            </div>
+          ))
+        }
+      </section>
+
+      <Hero footer about />
+    </div>
   </main>
 </Layout>
 
@@ -67,7 +109,11 @@ import Layout from '@src/layouts/Layout.astro';
       justify-content: center;
       overflow-x: hidden;
       padding: var(--spacing);
-      gap: var(--spacing);
+      gap: calc(var(--spacing) * 4);
+
+      @include tablet {
+        gap: calc(var(--spacing) * 2);
+      }
 
       @include landscape {
         @include desktop {
@@ -75,6 +121,68 @@ import Layout from '@src/layouts/Layout.astro';
           grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
           grid-template-rows: minmax(0, 1fr);
           gap: var(--spacing);
+        }
+      }
+
+      section {
+        display: flex;
+        flex-direction: column;
+        gap: calc(var(--spacing) * 2);
+
+        @include tablet {
+          gap: var(--spacing);
+        }
+
+        h1 {
+          @include header;
+        }
+
+        div {
+          display: flex;
+          flex-direction: column;
+          gap: 0.4rem;
+          padding-left: 1rem;
+          border-left: solid 2px var(--accentLow);
+          animation: moveIn calc(var(--animation-duration) * 0.75) ease-in-out;
+          animation-delay: calc(
+            calc(var(--animation-duration) * 0.75) + calc(calc(var(--animation-duration) * 0.5) * var(--index))
+          );
+          animation-fill-mode: forwards;
+          opacity: 0;
+          translate: 0 1rem;
+
+          @include light {
+            border-left: solid 2px var(--accent);
+          }
+
+          @keyframes moveIn {
+            0% {
+              opacity: 0;
+              translate: 0 1rem;
+            }
+            100% {
+              opacity: 1;
+              translate: 0 0rem;
+            }
+          }
+
+          h2 {
+            @include header-medium;
+            color: var(--accentLow);
+
+            @include light {
+              color: var(--accent);
+            }
+          }
+
+          h3 {
+            @include text;
+          }
+
+          p {
+            @include text;
+            @include text-low;
+          }
         }
       }
     }
