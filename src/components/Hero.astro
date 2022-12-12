@@ -80,6 +80,7 @@ const { header, footer, about } = Astro.props as Props;
       @include landscape {
         @include desktop {
           display: block;
+          max-height: 100vh;
         }
       }
     }
@@ -95,6 +96,32 @@ const { header, footer, about } = Astro.props as Props;
       padding: calc(var(--spacing) * 2) var(--spacing);
       gap: var(--spacing);
       @include card(1);
+
+      @include landscape {
+        @include desktop {
+          overflow: auto;
+
+          @media (max-height: 830px) {
+            padding: var(--spacing);
+
+            header {
+              .profileImage {
+                max-width: 12rem !important;
+              }
+            }
+          }
+
+          @media (max-height: 720px) {
+            padding: 1rem var(--spacing);
+
+            header {
+              .profileImage {
+                max-width: 10rem !important;
+              }
+            }
+          }
+        }
+      }
 
       header {
         display: flex;
