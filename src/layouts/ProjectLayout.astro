@@ -3,43 +3,13 @@ import CloseIcon from '@assets/icons/close-line.svg';
 import { FADE_ANIMATION_DURATION } from '@src/constants';
 ---
 
-<close-project>
-  <main id="projectPage" style={{ '--animation-duration': `${FADE_ANIMATION_DURATION}s` }}>
-    <div id="projectContainer">
-      <slot />
-      <button type="button" id="close"><img src={CloseIcon} alt="Close Icon" /></button>
-    </div>
-  </main>
-</close-project>
-
-<script>
-  import { FADE_ANIMATION_DURATION } from '@src/constants';
-
-  class CloseProject extends HTMLElement {
-    projectContainer: HTMLElement | null = null;
-
-    constructor() {
-      super();
-      const container = this.querySelector('#projectPage');
-      const closeButton = this.querySelector('#close');
-      this.projectContainer = this.querySelector('#projectContainer');
-
-      container?.addEventListener('click', this.closeProject.bind(this));
-      closeButton?.addEventListener('click', this.closeProject.bind(this));
-      this.projectContainer?.addEventListener('click', (e) => e.stopPropagation());
-    }
-
-    closeProject = () => {
-      this.projectContainer?.classList.add('slideOut');
-
-      setTimeout(() => {
-        window.location.href = '/';
-      }, FADE_ANIMATION_DURATION * 1000);
-    };
-  }
-
-  customElements.define('close-project', CloseProject);
-</script>
+<main style={{ '--animation-duration': `${FADE_ANIMATION_DURATION}s` }}>
+  <a href="/" class="backdrop"></a>
+  <div class="projectContainer">
+    <slot />
+    <a href="/" class="close"><img src={CloseIcon} alt="Close Icon" /></a>
+  </div>
+</main>
 
 <style is:global lang="scss">
   @import '../styles/mixins.scss';
@@ -54,7 +24,15 @@ import { FADE_ANIMATION_DURATION } from '@src/constants';
     align-items: center;
     justify-content: center;
 
-    #projectContainer {
+    .backdrop {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .projectContainer {
       position: relative;
       max-width: 100rem;
       width: 100%;
@@ -64,6 +42,7 @@ import { FADE_ANIMATION_DURATION } from '@src/constants';
       animation-fill-mode: forwards;
       translate: 0 10rem;
       opacity: 0;
+      z-index: 1;
 
       @keyframes slideIn {
         0% {
@@ -76,24 +55,7 @@ import { FADE_ANIMATION_DURATION } from '@src/constants';
         }
       }
 
-      &.slideOut {
-        animation: slideOut var(--animation-duration) ease-in-out;
-        animation-fill-mode: forwards;
-        opacity: 1;
-
-        @keyframes slideOut {
-          0% {
-            translate: 0 0vh;
-            opacity: 1;
-          }
-          100% {
-            translate: 0 10rem;
-            opacity: 0;
-          }
-        }
-      }
-
-      #close {
+      .close {
         @include card(2);
         padding: 0.5rem;
         position: absolute;

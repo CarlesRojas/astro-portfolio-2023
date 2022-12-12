@@ -8,39 +8,12 @@ const { route, title } = Astro.props as Props;
 ---
 
 <div class="projectCard">
-  <animation-link route={`/project/${route}`}>
-    <div id="imageContainer">
+  <a href={`/project/${route}`}>
+    <div class="imageContainer">
       <img src={`/assets/${route}/poster.jpg`} alt={`${title} poster image`} />
     </div>
-  </animation-link>
+  </a>
 </div>
-
-<script>
-  import { FADE_ANIMATION_DURATION } from '@src/constants';
-
-  class AnimationLink extends HTMLElement {
-    homePage: HTMLElement | null = null;
-
-    constructor() {
-      super();
-
-      this.homePage = document.getElementById('home');
-      const card = this.querySelector('#imageContainer');
-
-      card?.addEventListener('click', this.handleClick.bind(this));
-    }
-
-    handleClick = () => {
-      this.homePage?.classList.add('fadeOut');
-
-      setTimeout(() => {
-        window.location.href = this.getAttribute('route') as string;
-      }, FADE_ANIMATION_DURATION * 1000);
-    };
-  }
-
-  customElements.define('animation-link', AnimationLink);
-</script>
 
 <style lang="scss">
   @import '../styles/mixins.scss';
@@ -50,7 +23,7 @@ const { route, title } = Astro.props as Props;
     position: relative;
     overflow: visible;
 
-    #imageContainer {
+    .imageContainer {
       position: relative;
       @include aspect-ratio(16, 9);
       width: 88vw;
