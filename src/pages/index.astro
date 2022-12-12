@@ -19,8 +19,6 @@ const sortByDate = (a: Project, b: Project) => {
 const sortedWebProjects = webProjects.map((project) => project.frontmatter as Project).sort(sortByDate);
 const sortedGameProjects = gameProjects.map((project) => project.frontmatter as Project).sort(sortByDate);
 const sortedDesignProjects = designProjects.map((project) => project.frontmatter as Project).sort(sortByDate);
-
-console.log(sortedWebProjects[0].date);
 ---
 
 <Layout title={'Portfolio'}>
