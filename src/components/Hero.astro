@@ -26,9 +26,7 @@ const { header, footer, about } = Astro.props as Props;
             <h1>{"I'm Carles Rojas"}</h1>
             <h2>{'Software Engineer & Designer from Barcelona'}</h2>
 
-            <about-animation-link about={about} route={about ? '/' : '/about'}>
-              {about ? 'My projects' : 'About me'}
-            </about-animation-link>
+            <a href={about ? '/' : '/about'}>{about ? 'My projects' : 'About me'}</a>
           </div>
         </header>
       )
@@ -57,45 +55,6 @@ const { header, footer, about } = Astro.props as Props;
     }
   </div>
 </div>
-
-<script>
-  import { FADE_ANIMATION_DURATION } from '@src/constants';
-
-  class AnimationLink extends HTMLElement {
-    homePage: HTMLElement | null = null;
-    aboutPage: HTMLElement | null = null;
-    interval: ReturnType<typeof setInterval> | null = null;
-    isAbout = !!this.getAttribute('about');
-
-    constructor() {
-      super();
-
-      console.log(this.isAbout);
-
-      this.homePage = document.getElementById('home');
-      this.aboutPage = document.getElementById('about');
-      this.addEventListener('click', this.handleClick.bind(this));
-    }
-
-    handleClick = () => {
-      if (this.interval) clearInterval(this.interval);
-
-      this.interval = setInterval(() => {
-        this.homePage?.classList.remove('fadeOut');
-        this.aboutPage?.classList.remove('fadeOut');
-      }, FADE_ANIMATION_DURATION * 2000);
-
-      this.homePage?.classList.add('fadeOut');
-      this.aboutPage?.classList.add('fadeOut');
-
-      setTimeout(() => {
-        window.location.href = this.getAttribute('route') as string;
-      }, FADE_ANIMATION_DURATION * 1000);
-    };
-  }
-
-  customElements.define('about-animation-link', AnimationLink);
-</script>
 
 <style lang="scss">
   @import '../styles/mixins.scss';
@@ -245,7 +204,7 @@ const { header, footer, about } = Astro.props as Props;
             }
           }
 
-          about-animation-link {
+          a {
             @include card(2);
             padding: 1rem 1.5rem;
             margin-top: 0.5rem;
