@@ -49,7 +49,6 @@ const sortedDesignProjects = designProjects.map((project) => project.frontmatter
     flex-direction: column;
     justify-content: flex-start;
     gap: 1rem;
-    background-color: var(--backgroundDark);
     animation: fadeIn var(--animation-duration) ease-in-out;
     animation-fill-mode: forwards;
     opacity: 0;
@@ -61,14 +60,6 @@ const sortedDesignProjects = designProjects.map((project) => project.frontmatter
       100% {
         opacity: 1;
       }
-    }
-
-    @include light {
-      background-color: var(--backgroundLight);
-    }
-
-    @include dark {
-      background-color: var(--backgroundDark);
     }
 
     @include tablet {

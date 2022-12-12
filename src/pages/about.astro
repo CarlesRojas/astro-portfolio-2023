@@ -28,7 +28,6 @@ import Layout from '@src/layouts/Layout.astro';
     flex-direction: column;
     justify-content: flex-start;
     gap: 1rem;
-    background-color: var(--backgroundDark);
     animation: fadeIn var(--animation-duration) ease-in-out;
     animation-fill-mode: forwards;
     opacity: 0;
@@ -40,14 +39,6 @@ import Layout from '@src/layouts/Layout.astro';
       100% {
         opacity: 1;
       }
-    }
-
-    @include light {
-      background-color: var(--backgroundLight);
-    }
-
-    @include dark {
-      background-color: var(--backgroundDark);
     }
 
     @include tablet {
@@ -89,7 +80,17 @@ import Layout from '@src/layouts/Layout.astro';
       flex-direction: column;
       justify-content: center;
       overflow-x: hidden;
-      padding-top: 1.5rem;
+      padding: var(--spacing);
+      gap: var(--spacing);
+
+      @include landscape {
+        @include desktop {
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+          grid-template-rows: minmax(0, 1fr);
+          gap: var(--spacing);
+        }
+      }
     }
   }
 </style>
