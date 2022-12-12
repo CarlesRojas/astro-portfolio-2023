@@ -1,0 +1,12 @@
+---
+- NextJS
+- ReactJS
+- Astro
+- Typescript
+- Scss
+- NodeJS
+- Django
+- Express
+- Prisma
+- Git
+---

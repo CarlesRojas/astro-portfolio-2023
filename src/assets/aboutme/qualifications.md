@@ -1,6 +1,6 @@
 ---
 [
-  { title: "Bachelor's Degree in informatics Engineering", place: "Facultat d'Informàtica de Barcelona", date: '2020' },
+  { title: "Bachelor's Degree in informatics Engineering", place: "Facultat d'Informàtica de Barcelona", date: '2019' },
   {
     title: "Bachelor's Degree in Product Design",
     place: 'EINA Centre Universitari de Disseny i Art de Barcelona',

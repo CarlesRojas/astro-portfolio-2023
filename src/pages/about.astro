@@ -16,6 +16,8 @@ const experience = Object.values((await Astro.glob('../assets/aboutme/experience
 const qualifications = Object.values((await Astro.glob('../assets/aboutme/qualifications.md'))[0].frontmatter).map(
   (elem) => elem as Entry,
 );
+
+const technologies = Object.values((await Astro.glob('../assets/aboutme/technologies.md'))[0].frontmatter);
 ---
 
 <Layout title={'About me'}>
@@ -24,33 +26,45 @@ const qualifications = Object.values((await Astro.glob('../assets/aboutme/qualif
     <Hero header about />
 
     <div class="content">
-      <section>
-        <h1>Experience</h1>
+      <div class="scroll">
+        <section class="technologies">
+          <h1>Technologies</h1>
+          {technologies.map((technology, i) => <p style={{ '--index': i }}>{technology}</p>)}
+        </section>
 
-        {
-          experience.map(({ title, place, date }, i) => (
-            <div style={{ '--index': i }}>
-              <h2>{title}</h2>
-              <h3>{place}</h3>
-              <p>{date}</p>
-            </div>
-          ))
-        }
-      </section>
+        <section class="experience">
+          <h1>Experience</h1>
 
-      <section>
-        <h1>Qualifications</h1>
+          {
+            experience.map(({ title, place, date }, i) => (
+              <div style={{ '--index': i }}>
+                <h2>{title}</h2>
+                <h3>{place}</h3>
+                <p>{date}</p>
+              </div>
+            ))
+          }
+        </section>
 
-        {
-          qualifications.map(({ title, place, date }, i) => (
-            <div style={{ '--index': i }}>
-              <h2>{title}</h2>
-              <h3>{place}</h3>
-              <p>{date}</p>
-            </div>
-          ))
-        }
-      </section>
+        <section class="qualifications">
+          <h1>Qualifications</h1>
+
+          {
+            qualifications.map(({ title, place, date }, i) => (
+              <div style={{ '--index': i }}>
+                <h2>{title}</h2>
+                <h3>{place}</h3>
+                <p>{date}</p>
+              </div>
+            ))
+          }
+        </section>
+
+        <section class="cv">
+          <h1>Resume</h1>
+          <a href="assets/CarlesRojas_SoftwareDeveloper_CV.pdf" target="_blank">Download CV</a>
+        </section>
+      </div>
 
       <Hero footer about />
     </div>
@@ -60,6 +74,17 @@ const qualifications = Object.values((await Astro.glob('../assets/aboutme/qualif
 <style lang="scss">
   @import '../styles/mixins.scss';
   @import '../styles/shared.scss';
+
+  @keyframes moveIn {
+    0% {
+      opacity: 0;
+      translate: 0 1rem;
+    }
+    100% {
+      opacity: 1;
+      translate: 0 0rem;
+    }
+  }
 
   #about {
     @include page;
@@ -98,90 +123,143 @@ const qualifications = Object.values((await Astro.glob('../assets/aboutme/qualif
         grid-template-columns: min(27%, 40rem) 1fr;
       }
     }
-
     .content {
       position: relative;
       width: 100%;
       max-width: 100%;
       height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      overflow-x: hidden;
+      max-height: 100%;
       padding: var(--spacing);
-      gap: calc(var(--spacing) * 4);
+      overflow: auto;
 
-      @include tablet {
-        gap: calc(var(--spacing) * 2);
-      }
-
-      @include landscape {
-        @include desktop {
-          display: grid;
-          grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-          grid-template-rows: minmax(0, 1fr);
-          gap: var(--spacing);
-        }
-      }
-
-      section {
+      .scroll {
+        position: relative;
+        width: 100%;
+        height: fit-content;
         display: flex;
         flex-direction: column;
-        gap: calc(var(--spacing) * 2);
+        justify-content: center;
+        gap: calc(var(--spacing) * 4);
 
         @include tablet {
-          gap: var(--spacing);
+          gap: calc(var(--spacing) * 2);
         }
 
-        h1 {
-          @include header;
+        @include landscape {
+          @include desktop {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            grid-template-rows: minmax(0, min-content) minmax(0, 1fr);
+            grid-template-areas:
+              'tech cv'
+              'expe qual';
+            gap: var(--spacing);
+          }
         }
 
-        div {
+        section {
           display: flex;
           flex-direction: column;
-          gap: 0.4rem;
-          padding-left: 1rem;
-          border-left: solid 2px var(--accentLow);
-          animation: moveIn calc(var(--animation-duration) * 0.75) ease-in-out;
-          animation-delay: calc(
-            calc(var(--animation-duration) * 0.75) + calc(calc(var(--animation-duration) * 0.5) * var(--index))
-          );
-          animation-fill-mode: forwards;
-          opacity: 0;
-          translate: 0 1rem;
+          gap: calc(var(--spacing) * 2);
 
-          @include light {
-            border-left: solid 2px var(--accent);
+          @include tablet {
+            gap: var(--spacing);
           }
 
-          @keyframes moveIn {
-            0% {
+          h1 {
+            @include header;
+            width: 100%;
+          }
+
+          &.experience {
+            grid-area: expe;
+          }
+
+          &.qualifications {
+            grid-area: qual;
+          }
+
+          &.cv {
+            grid-area: cv;
+            gap: var(--spacing);
+
+            a {
+              @include card(2);
+              width: fit-content;
+              padding: 0.75rem 1rem;
+
+              @include mouse {
+                cursor: pointer;
+
+                &:hover {
+                  transform: scale(1.1);
+                }
+              }
+            }
+          }
+
+          &.technologies {
+            grid-area: tech;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 1rem;
+
+            p {
+              @include card(3);
+              @include text-bold;
+              color: black;
+              background-color: var(--accentLow) !important;
+              padding: 0.75rem 1rem;
+              animation: moveIn calc(var(--animation-duration) * 0.75) ease-in-out;
+              animation-delay: calc(
+                calc(var(--animation-duration) * 0.75) + calc(calc(var(--animation-duration) * 0.5) * var(--index))
+              );
+              animation-fill-mode: forwards;
               opacity: 0;
               translate: 0 1rem;
-            }
-            100% {
-              opacity: 1;
-              translate: 0 0rem;
+
+              @include light {
+                color: white;
+                background-color: var(--accent) !important;
+              }
             }
           }
 
-          h2 {
-            @include header-medium;
-            color: var(--accentLow);
+          div {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            padding-left: 1rem;
+            border-left: solid 2px var(--accentLow);
+            animation: moveIn calc(var(--animation-duration) * 0.75) ease-in-out;
+            animation-delay: calc(
+              calc(var(--animation-duration) * 0.75) + calc(calc(var(--animation-duration) * 0.5) * var(--index))
+            );
+            animation-fill-mode: forwards;
+            opacity: 0;
+            translate: 0 1rem;
 
             @include light {
-              color: var(--accent);
+              border-left: solid 2px var(--accent);
             }
-          }
 
-          h3 {
-            @include text;
-          }
+            h2 {
+              @include header-medium;
+              color: var(--accentLow);
 
-          p {
-            @include text;
-            @include text-low;
+              @include light {
+                color: var(--accent);
+              }
+            }
+
+            h3 {
+              @include text;
+            }
+
+            p {
+              @include text;
+              @include text-low;
+            }
           }
         }
       }
