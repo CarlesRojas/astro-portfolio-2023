@@ -8,9 +8,10 @@ import { default as DarkModeToggle } from './DarkModeToggle.astro';
 export interface Props {
   header?: boolean;
   footer?: boolean;
+  about?: boolean;
 }
 
-const { header, footer } = Astro.props as Props;
+const { header, footer, about } = Astro.props as Props;
 ---
 
 <div class:list={['hero', { lateralHero: header && footer }]}>
@@ -24,6 +25,10 @@ const { header, footer } = Astro.props as Props;
             <small>{'Hi'}</small>
             <h1>{"I'm Carles Rojas"}</h1>
             <h2>{'Software Engineer & Designer from Barcelona'}</h2>
+
+            <about-animation-link about={about} route={about ? '/' : '/about'}>
+              {about ? 'My projects' : 'About me'}
+            </about-animation-link>
           </div>
         </header>
       )
@@ -52,6 +57,45 @@ const { header, footer } = Astro.props as Props;
     }
   </div>
 </div>
+
+<script>
+  import { FADE_ANIMATION_DURATION } from '@src/constants';
+
+  class AnimationLink extends HTMLElement {
+    homePage: HTMLElement | null = null;
+    aboutPage: HTMLElement | null = null;
+    interval: ReturnType<typeof setInterval> | null = null;
+    isAbout = !!this.getAttribute('about');
+
+    constructor() {
+      super();
+
+      console.log(this.isAbout);
+
+      this.homePage = document.getElementById('home');
+      this.aboutPage = document.getElementById('about');
+      this.addEventListener('click', this.handleClick.bind(this));
+    }
+
+    handleClick = () => {
+      if (this.interval) clearInterval(this.interval);
+
+      this.interval = setInterval(() => {
+        this.homePage?.classList.remove('fadeOut');
+        this.aboutPage?.classList.remove('fadeOut');
+      }, FADE_ANIMATION_DURATION * 2000);
+
+      this.homePage?.classList.add('fadeOut');
+      this.aboutPage?.classList.add('fadeOut');
+
+      setTimeout(() => {
+        window.location.href = this.getAttribute('route') as string;
+      }, FADE_ANIMATION_DURATION * 1000);
+    };
+  }
+
+  customElements.define('about-animation-link', AnimationLink);
+</script>
 
 <style lang="scss">
   @import '../styles/mixins.scss';
@@ -143,6 +187,7 @@ const { header, footer } = Astro.props as Props;
           flex-direction: column;
           align-items: center;
           width: fit-content;
+          gap: 0.5rem;
 
           @include landscape {
             align-items: flex-start;
@@ -155,7 +200,6 @@ const { header, footer } = Astro.props as Props;
           small {
             width: fit-content;
             max-width: 25rem;
-            margin-top: 1rem;
             text-align: center;
             @include text-small;
             @include text-low;
@@ -172,7 +216,6 @@ const { header, footer } = Astro.props as Props;
           h1 {
             width: fit-content;
             max-width: 25rem;
-            margin: 0.2rem 0 0.5rem;
             text-align: center;
             @include header;
 
@@ -198,6 +241,20 @@ const { header, footer } = Astro.props as Props;
 
               @include desktop {
                 text-align: center;
+              }
+            }
+          }
+
+          about-animation-link {
+            @include card(2);
+            padding: 1rem 1.5rem;
+            margin-top: 0.5rem;
+
+            @include mouse {
+              cursor: pointer;
+
+              &:hover {
+                scale: 1.1;
               }
             }
           }
