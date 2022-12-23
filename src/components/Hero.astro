@@ -35,7 +35,7 @@ const { header, footer, about } = Astro.props as Props;
     {
       footer && (
         <footer>
-          <DarkModeToggle />
+          <DarkModeToggle id={`${header ? 'header' : ''} ${footer ? 'footer' : ''} ${about ? 'about' : ''}`} />
 
           <div>
             <a href="https://www.linkedin.com/in/carles-rojas/" target="_blank" rel="noopener noreferrer">

@@ -1,6 +1,16 @@
+---
+export interface Props {
+  id: string;
+}
+
+const { id } = Astro.props as Props;
+const toggleId = `darkModeCheckbox_${id}`;
+---
+
 <dark-mode>
-  <label class="switch" for="darkModeCheckbox">
-    <input id="darkModeCheckbox" type="checkbox" />
+  <label class="switch" for={toggleId}>
+    <label for={toggleId}>dark mode toggle</label>
+    <input id={toggleId} class="darkModeCheckbox" type="checkbox" />
     <span class="slider"></span>
   </label>
 </dark-mode>
@@ -13,7 +23,7 @@
 
     constructor() {
       super();
-      this.checkbox = this.querySelector('#darkModeCheckbox');
+      this.checkbox = this.querySelector('.darkModeCheckbox');
 
       const theme = localStorage.getItem(THEME_PROJECT);
       const initialValue = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -67,6 +77,12 @@
     position: relative;
     width: var(--width-of-switch);
     height: var(--height-of-switch);
+
+    label {
+      opacity: 0;
+      position: absolute;
+      pointer-events: none;
+    }
 
     input {
       opacity: 0;
