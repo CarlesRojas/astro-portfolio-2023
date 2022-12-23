@@ -20,7 +20,7 @@ const { video, videoPosition, numberOfScreenshots } = project;
 const imageRoutes = Array.from({ length: numberOfScreenshots }, (_, i) => i + 1).map(
   (i) =>
     ({
-      src: `/assets/${project.route}/screenshot${i}.jpg`,
+      src: `/assets/${project.route}/screenshot${i}.webp`,
       type: 'image',
     } as Media),
 );
@@ -209,6 +209,7 @@ if (video) imageRoutes.splice(videoPosition, 0, { src: `/assets/${project.route}
         pointer-events: all;
         opacity: 0;
         pointer-events: none;
+        background-color: white !important;
 
         &.interactible {
           pointer-events: all;

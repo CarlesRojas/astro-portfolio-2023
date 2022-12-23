@@ -11,7 +11,7 @@ links: []
 qr: false
 videoPosition: 0
 video: false
-numberOfScreenshots: 4
+numberOfScreenshots: 5
 process: "Gwood is a project made by students of EINA, University School of Design and Art for the Hábitat fair in Valencia 2014. Gwood was divided in five groups. The lounge chair was modeled with SolidWorks and made at EINA's workshop."
 date: 2015-02-01
 ---
