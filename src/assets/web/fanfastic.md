@@ -7,14 +7,13 @@ description:
     'In Fanfastic you can setup any intermittent fasting routine you wish. Choose how long you want to fast for and when to start. You can also track your weight and BMI.',
     'The app will remind you of when to start and stop fasting and it will provide an explanation for the different phases of fasting.',
   ]
-links:
-  [
-    { url: https://play.google.com/store/apps/details?id=app.netlify.fanfastic, type: android },
-    { url: https://www.microsoft.com/store/productId/9NFJ33VBGK91, type: windows },
+links: [
+    # { url: https://play.google.com/store/apps/details?id=app.netlify.fanfastic, type: android },
+    # { url: https://www.microsoft.com/store/productId/9NFJ33VBGK91, type: windows },
     { url: https://github.com/CarlesRojas/fanfastic-client, type: github },
     { url: https://github.com/CarlesRojas/fanfastic-server, type: github },
   ]
-qr: https://fanfastic.netlify.app/
+qr: false # https://fanfastic.netlify.app/
 videoPosition: 5
 video: true
 numberOfScreenshots: 5
