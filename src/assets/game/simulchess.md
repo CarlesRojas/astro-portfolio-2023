@@ -7,12 +7,13 @@ description:
     'Your turn and the opponents happen at the same time. You have 60 seconds to decide your move. Missing it loses you the game. Once both players have decided, both moves will resolve simultaneously.',
     'If both moves end up in the same square, the player with precedence will capture the opponent’s piece. White starts having precedence, and it changes every turn.',
   ]
-links: [
-    # { url: https://play.google.com/store/apps/details?id=app.pinya.simulchess, type: android },
-    # { url: https://www.microsoft.com/store/apps/9N7L52DD9PFK, type: windows },
+links:
+  [
+    { url: https://play.google.com/store/apps/details?id=app.pinya.simulchess, type: android },
+    { url: https://www.microsoft.com/store/apps/9N7L52DD9PFK, type: windows },
     { url: https://github.com/CarlesRojas/simulchess, type: github },
   ]
-qr: false # https://simulchess.pinya.app/
+qr: https://simulchess.pinya.app/
 videoPosition: 0
 video: true
 numberOfScreenshots: 5
